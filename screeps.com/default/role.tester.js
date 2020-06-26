@@ -2,6 +2,8 @@ const getEnergy = require('task.getEnergy');
 const storeEnergy = require('task.storeEnergy');
 const build = require('task.build');
 const repairRoom = require('task.repairRoom');
+const upgradeRoom = require('task.upgradeRoom');
+
 
 
 
@@ -19,28 +21,31 @@ let roleTester = {
         if (currentEnergy == 0 && creep.memory.task != 'getEnergy'){
             console.log('tester needs to get energy');
             creep.memory.task = 'getEnergy';
-        } else if(freeCapacity > 0 && creep.memory.task == 'getEnergy'){
-            // console.log('tester still gathering energy');
-            // creep.memory.task = 'getEnergy';
+        } 
+        // If we were just gathering energy keep gathering until full
+        else if(freeCapacity > 0 && creep.memory.task == 'getEnergy'){
+            // Just breaking out of our if cascade
         }
+
+        // ----- AFTER FILLING ENERGY SET TASK UNTIL IT RETURNS FALSE -----
 
         // Repair anything that needs it
         else if (currentEnergy > 0 && repairRoom(creep)) {
             creep.memory.task = 'repair';
         }
-        // store the energy anywhere that can hold it
+        // Store the energy anywhere that can hold it
         else if (currentEnergy > 0 && storeEnergy(creep)) {
             creep.memory.task = 'storeEnergy';
         }
-        // build something if possible
+        // Build something if possible
         else if (currentEnergy > 0 && build(creep)) {
             creep.memory.task = 'build';
         }
 
-
-
-        // If the unit has energy check if there is something that needs to be built
-
+        // Fall back to upgrading the room controller if nothing else need doing
+        else {
+            creep.memory.task = 'upgrade';
+        }
 
 
         switch(creep.memory.task){
@@ -64,6 +69,10 @@ let roleTester = {
                 // console.log('tester is storing energy');
             break
 
+            case 'upgrade': 
+                upgradeRoom(creep);
+            break
+            
             default: console.log('tester default switch case !!??!!?!?!?!??');
         }
 
@@ -72,9 +81,6 @@ let roleTester = {
     }
 
 }
-
-
-
 
 
 module.exports = roleTester;

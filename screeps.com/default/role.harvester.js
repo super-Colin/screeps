@@ -1,3 +1,5 @@
+const upgradeRoom = require('task.upgradeRoom');
+
 var roleHarvester = {
 
     /** @param {Creep} creep **/
@@ -23,7 +25,9 @@ var roleHarvester = {
                 }
             }
             if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
-                creep.moveTo(42, 22);
+                // creep.moveTo(42, 22);
+                console.log('harvestors are bored and upgrading');
+                upgradeRoom(creep);
             }
         }
         
