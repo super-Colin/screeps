@@ -1,8 +1,8 @@
 
 function repairRoom(creep){
-    const wallLimit = 501000;
+    const wallLimit = 20000;
     const targets = creep.room.find(FIND_STRUCTURES, {
-        filter: object => object.hits < object.hitsMax && object.hits < wallLimit
+        filter: object => object.hits < object.hitsMax && object.hits <= wallLimit
     });
 
     targets.sort((a, b) => a.hits - b.hits);
@@ -15,10 +15,10 @@ function repairRoom(creep){
         toRepair = Game.getObjectById(creep.memory.taskObjectId);
     }
     // otherwise if taskObject .hits > wallLimit (OR) if it's already at max
-     else if (targets != undefined && Game.getObjectById(creep.memory.taskObjectId).hits > wallLimit || Game.getObjectById(creep.memory.taskObjectId).hits == Game.getObjectById(creep.memory.taskObjectId).hitsMax) {
-         console.log('targets:   ');
-         console.log(targets);
-         console.log(typeof(targets));
+     else if (targets != undefined && Game.getObjectById(creep.memory.taskObjectId).hits >= wallLimit || Game.getObjectById(creep.memory.taskObjectId).hits == Game.getObjectById(creep.memory.taskObjectId).hitsMax) {
+        //  console.log('targets:   ');
+        //  console.log(targets);
+        //  console.log(typeof(targets));
         creep.memory.taskObjectId = targets[0].id;
     }
     // console.log(creep.memory.taskObject);

@@ -24,11 +24,15 @@ var roleHarvester = {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
-            if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
-                // creep.moveTo(42, 22);
+            // if (creep.room.name != 'W23N35') {
+            //     creep.moveTo(42, 22, 'W23N35');
+            //     console.log('lost sheep returning :) to : ' + Game.spawns['Spawn1'].room.name);
+            // }
+            else if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
                 console.log('harvestors are bored and upgrading');
                 upgradeRoom(creep);
             }
+
         }
         
 	}

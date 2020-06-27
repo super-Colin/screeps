@@ -2,7 +2,6 @@ let roleHarvester = require('role.harvester');
 let roleBuilder = require('role.builder');
 let roleUpgrader = require('role.upgrader');
 let roleTester = require('role.tester');
-let roleRepairer = require('role.repairer');
 
 
 module.exports.loop = function () {
@@ -10,7 +9,7 @@ module.exports.loop = function () {
 
     for (let name in Memory.creeps) {
         if (!Game.creeps[name]) {
-            // console.log(Game.creeps)
+            // console.log('deleted role was ' + name.memory.role);
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
         }
@@ -19,9 +18,9 @@ module.exports.loop = function () {
 
     Memory.creepRoles = {
         harvesters: 3,
-        upgraders: 5,
+        upgraders: 4,
         builders: 4,
-        testers: 3,
+        testers: 5,
     };
 
     let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -58,7 +57,7 @@ module.exports.loop = function () {
     } else if (testers.length < Memory.creepRoles.testers) {
         let newName = 'Tester' + Game.time;
         console.log('Working on a new tester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName, {
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {
             memory: {role: 'tester'}
         });
     }
