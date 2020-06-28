@@ -1,36 +1,45 @@
-let roleHarvester = require('role.harvester');
-let roleBuilder = require('role.builder');
-let roleUpgrader = require('role.upgrader');
-let roleTester = require('role.tester');
+const roleHarvester = require('role.harvester');
+const roleBuilder = require('role.builder');
+const roleUpgrader = require('role.upgrader');
+const roleTester = require('role.tester');
 
 
 module.exports.loop = function () {
-    console.log('-------------- ~~~~~~ --------------');
+    if(Game.time % 3 == 1){
+        console.log('-------~~- ~-~~~o~~~-~ -~~-------');
+    } else if (Game.time % 3 == 2) {
+        console.log('~--~~~~~-~ ~~~-----~~~ ~-~~~~~--~');
+    } else {
+        console.log('-~~--~---- ----------- ----~--~~-');
+    }
 
     for (let name in Memory.creeps) {
         if (!Game.creeps[name]) {
-            // console.log('deleted role was ' + name.memory.role);
+            console.log('deleted role was ' + Memory.creeps[name].role);
+            console.log('deleted roleNum was ' + Memory.creeps[name].roleNum);
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
         }
     }
-    // console.log(RawMemory);
 
     Memory.creepRoles = {
-        harvesters: 3,
-        upgraders: 4,
-        builders: 4,
-        testers: 5,
+        harvesters: 4,
+        upgraders: 8,
+        builders: 2,
+        testers: 4,
+        roadWorkers: 1
     };
 
     let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     let testers = _.filter(Game.creeps, (creep) => creep.memory.role == 'tester');
+    // let roadWorkers = _.filter(Game.creeps, (creep) => creep.memory.role == 'roadWorker');
     console.log('Harvesters: ' + harvesters.length + ' / ' + Memory.creepRoles.harvesters);
     console.log('Upgraders: ' + upgraders.length + ' / ' + Memory.creepRoles.upgraders);
     console.log('Builders: ' + builders.length + ' / ' + Memory.creepRoles.builders);
     console.log('Testers: ' + testers.length + ' / ' + Memory.creepRoles.testers);
+    // console.log('RoadWorkers: ' + roadWorkers.length + ' / ' + Memory.creepRoles.roadWorkers);
 
 
     if (harvesters.length < Memory.creepRoles.harvesters) {
@@ -57,7 +66,7 @@ module.exports.loop = function () {
     } else if (testers.length < Memory.creepRoles.testers) {
         let newName = 'Tester' + Game.time;
         console.log('Working on a new tester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {
+        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName, {
             memory: {role: 'tester'}
         });
     }
@@ -77,7 +86,6 @@ module.exports.loop = function () {
         let creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
-            // roleRepairer.run(creep);
         }
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);

@@ -1,8 +1,8 @@
 const upgradeRoom = require('task.upgradeRoom');
 const repairWallsRoads = require('task.repairWallsRoads');
 
-var roleHarvester = {
-
+let roleHarvester = {
+    
     /** @param {Creep} creep **/
     run: function(creep) {
 	    if(creep.store.getFreeCapacity() > 0) {

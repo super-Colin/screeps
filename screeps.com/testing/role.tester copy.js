@@ -2,7 +2,6 @@ const getEnergy = require('task.getEnergy');
 const storeEnergy = require('task.storeEnergy');
 const build = require('task.build');
 const repairRoom = require('task.repairRoom');
-const repairRoomBasic = require('task.repairRoomBasic');
 const upgradeRoom = require('task.upgradeRoom');
 
 
@@ -50,23 +49,35 @@ let roleTester = {
 
 
         switch(creep.memory.task){
-            case 'getEnergy': getEnergy(creep); break
+            case 'getEnergy':
+                getEnergy(creep);
+                // console.log('tester is getting energy');
+            break
 
-            // case 'repair': repairRoom(creep, false); break
-            // case 'repair': repairRoom(creep); break
-            case 'repair': repairRoomBasic(creep); break
+            case 'repair':
+                repairRoom(creep);
+                // console.log('tester is repairing');
+            break
 
-            case 'build': build(creep); break
+            case 'build':
+                build(creep);
+                // console.log('tester is building');
+            break
 
-            case 'storeEnergy': storeEnergy(creep); break
+            case 'storeEnergy':
+                storeEnergy(creep);
+                // console.log('tester is storing energy');
+            break
 
-            case 'upgrade': upgradeRoom(creep); break
+            case 'upgrade': 
+                upgradeRoom(creep);
+            break
             
-            default: console.log('tester default switch case!!??!!?!?!?!??');
+            default: console.log('tester default switch case !!??!!?!?!?!??');
         }
 
 
-        // console.log('tester\'s task is ' + creep.memory.task)
+        console.log('tester\'s task is ' + creep.memory.task)
     }
 
 }

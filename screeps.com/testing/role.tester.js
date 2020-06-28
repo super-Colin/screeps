@@ -2,7 +2,6 @@ const getEnergy = require('task.getEnergy');
 const storeEnergy = require('task.storeEnergy');
 const build = require('task.build');
 const repairRoom = require('task.repairRoom');
-const repairRoomBasic = require('task.repairRoomBasic');
 const upgradeRoom = require('task.upgradeRoom');
 
 
@@ -17,55 +16,39 @@ let roleTester = {
         let currentEnergy = creep.store[RESOURCE_ENERGY];
 
         // ---------- Decide what to do ------------ 
+        // Based on a single if-else: if the first thing is doable it will ignore lower jobs
         
         // Refill energy if it has run out
         if (currentEnergy == 0 && creep.memory.task != 'getEnergy'){
-            console.log('tester needs to get energy');
             creep.memory.task = 'getEnergy';
+            getEnergy(creep);
         } 
         // If we were just gathering energy keep gathering until full
         else if(freeCapacity > 0 && creep.memory.task == 'getEnergy'){
-            // Just breaking out of our if cascade
+            getEnergy(creep);
         }
-
-        // ----- AFTER FILLING ENERGY SET TASK UNTIL IT RETURNS FALSE -----
+            // ----- AFTER FILLING ENERGY SET TASK UNTIL IT RETURNS FALSE -----
 
         // Repair anything that needs it
         else if (currentEnergy > 0 && repairRoom(creep)) {
             creep.memory.task = 'repair';
+            repairRoom(creep);
         }
         // Store the energy anywhere that can hold it
         else if (currentEnergy > 0 && storeEnergy(creep)) {
             creep.memory.task = 'storeEnergy';
+            storeEnergy(creep);
         }
         // Build something if possible
         else if (currentEnergy > 0 && build(creep)) {
             creep.memory.task = 'build';
+            build(creep);
         }
-
         // Fall back to upgrading the room controller if nothing else need doing
         else {
             creep.memory.task = 'upgrade';
+            upgradeRoom(creep);
         }
-
-
-        switch(creep.memory.task){
-            case 'getEnergy': getEnergy(creep); break
-
-            // case 'repair': repairRoom(creep, false); break
-            // case 'repair': repairRoom(creep); break
-            case 'repair': repairRoomBasic(creep); break
-
-            case 'build': build(creep); break
-
-            case 'storeEnergy': storeEnergy(creep); break
-
-            case 'upgrade': upgradeRoom(creep); break
-            
-            default: console.log('tester default switch case!!??!!?!?!?!??');
-        }
-
-
         // console.log('tester\'s task is ' + creep.memory.task)
     }
 

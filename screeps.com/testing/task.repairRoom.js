@@ -16,10 +16,10 @@ function repairRoom(creep, repairWalls = true, hitLimit = 100000){
     }
     else{
         // if repairWalls is false find everything but walls and roads
-        targets = creep.room.find(FIND_MY_STRUCTURES, {
+        targets = creep.room.find(FIND_STRUCTURES, {
             filter: object =>
-                // object.structureType != STRUCTURE_WALL && 
-                // object.structureType != STRUCTURE_ROAD &&
+                object.structureType != STRUCTURE_WALL && 
+                object.structureType != STRUCTURE_ROAD &&
                 object.hits < object.hitsMax &&
                 object.hits < hitLimit
         });
@@ -55,9 +55,7 @@ function repairRoom(creep, repairWalls = true, hitLimit = 100000){
         }
         
         return true;
-    } else{
-        return false
-    }
+    } 
     if (targets == {}) {
          return false;
     }
