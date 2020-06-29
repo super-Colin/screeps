@@ -14,7 +14,7 @@ function autoSpawning(spawnName, currentRoomName, ticksBetweenChecks = 5){
     for(let role in Memory.creepInfo[currentRoomName]){
         if(role == 'roomCreepSpawnQueue'){
             console.log('THIS SHOULD ONLY TRIGGER ONCE');
-            return;
+            break;
         }else{
             console.log('role else was yes for : ' + role);
             let actualNumberAliveNow = _.filter(Game.creeps, (creep) => creep.memory.role == role.roleName);
@@ -24,25 +24,27 @@ function autoSpawning(spawnName, currentRoomName, ticksBetweenChecks = 5){
 
     }
     
-    // Check our spawnQueue and start working on it if possible
+    // Check our spawnQueue and organize it...
+    console.log('Spawn Queue');
+    console.log(JSON.stringify(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue ));
     if(
        Memory.creepInfo[currentRoomName].roomCreepSpawnQueue != undefined
     && Memory.creepInfo[currentRoomName].roomCreepSpawnQueue != {}
+    && Memory.creepInfo[currentRoomName].roomCreepSpawnQueue != []
+    && Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0] != undefined
     ){
 
         console.log('LOOKING AT ROOM SPAWN QUEUE');
 
-        let firstKeyValue;
-        let deadCreepRole;
-        // let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0];
-        // // console.log('key value : ' + firstKeyValue);
+        let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0];
+        console.log('key value : ' + firstKeyValue);
 
-        // let deadCreepRole = Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue].role;
+        let deadCreepRole = Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue].role;
+        if(deadCreepRole == undefined){
+            console.log('spawn queue had no role, removing queue with key: ' + firstKeyValue);
+            delete Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue];
+        }
 
-
-        // // console.log('roleGroup :  [from autoSpawnJS]');
-        // // console.log(Memory.creepInfo[currentRoomName]);
-        // // console.log(Memory.creepInfo[currentRoomName][deadCreepRole + 's']);
 
         // If the dead creep's role is not in demand remove it from the queue
         console.log('number alive : ' + (deadCreepRole + 's'));
@@ -72,45 +74,15 @@ function autoSpawning(spawnName, currentRoomName, ticksBetweenChecks = 5){
             delete Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue];
         }
         
-        else{
-
-            let rcLevel = 'rc' + Game.rooms[currentRoomName].controller.level;
-            let bodyPartsArray = Memory.creepInfo[currentRoomName][deadCreepRole + 's'].bodyParts[rcLevel];
-            // console.log('controller level is: ' + rcLevel);
-            // console.log(bodyPartsArray);
-
-            let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0];
-            let replacementRoleNumber = Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue].roleNumber;
-            // console.log(replacementRoleNumber);
-
-            let newName = deadCreepRole + replacementRoleNumber;
-
-            if (
-                   replacementRoleNumber === 0 
-                || replacementRoleNumber == undefined 
-                || replacementRoleNumber == null
-            ) {
-                let currentRoleNum = Memory.creepInfo[currentRoomName][deadCreepRole + 's'].currentRoleNumber;
-                replacementRoleNumber = currentRoleNum;
-                Memory.creepInfo[currentRoomName][deadCreepRole + 's'].currentRoleNumber = currentRoleNum + 1;
-            }
-
-            
-            console.log('Working on a new ' + deadCreepRole + ': ' + newName);
-
-            Game.spawns[spawnName].spawnCreep(bodyPartsArray, newName, {
-                memory: {
-                    roomCreated: currentRoomName,
-                    role: deadCreepRole,
-                    roleNumber: replacementRoleNumber
-                }
-            });
-        }
 
 
     }
 
-    if(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue == {}){
+    if(
+           Memory.creepInfo[currentRoomName].roomCreepSpawnQueue == {}
+        || Memory.creepInfo[currentRoomName].roomCreepSpawnQueue == []
+        || Memory.creepInfo[currentRoomName].roomCreepSpawnQueue.length == 0
+    ) {
 
         let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName])[0];
         let roleToFill = Memory.creepInfo[currentRoomName][firstKeyValue];
@@ -129,6 +101,48 @@ function autoSpawning(spawnName, currentRoomName, ticksBetweenChecks = 5){
                 roomCreated: currentRoomName,
                 role: roleToFill,
                 roleNumber: currentRoleNum
+            }
+        });
+    }
+
+    else {
+        console.log('LOOKING AT ROOM SPAWN REQUIREMENTS');
+
+        let newCreepRole = 'harvester';
+
+        let rcLevel = 'rc' + Game.rooms[currentRoomName].controller.level;
+        
+        let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0];
+
+        let bodyPartsArray = Memory.creepInfo[currentRoomName][newCreepRole + 's'].bodyParts[rcLevel];
+        // console.log('controller level is: ' + rcLevel);
+        console.log(bodyPartsArray);
+
+        console.log(Memory.creepInfo[currentRoomName]);
+        console.log(Memory.creepInfo[currentRoomName][newCreepRole + 's']);
+        let newRoleNumber = Memory.creepInfo[currentRoomName][newCreepRole + 's'].roleNumber;
+        // console.log(replacementRoleNumber);
+
+        let newName = newCreepRole + newRoleNumber;
+
+        if (
+            newRoleNumber === 0 ||
+            newRoleNumber == undefined ||
+            newRoleNumber == null
+        ) {
+            let currentRoleNum = Memory.creepInfo[currentRoomName][newCreepRole + 's'].currentRoleNumber;
+            newRoleNumber = currentRoleNum;
+            Memory.creepInfo[currentRoomName][newCreepRole + 's'].currentRoleNumber = currentRoleNum + 1;
+        }
+
+
+        console.log('Working on a new ' + newCreepRole + ': ' + newName);
+
+        Game.spawns[spawnName].spawnCreep(bodyPartsArray, newName, {
+            memory: {
+                roomCreated: currentRoomName,
+                role: newCreepRole,
+                roleNumber: newRoleNumber
             }
         });
     }

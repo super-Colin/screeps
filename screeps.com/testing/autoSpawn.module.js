@@ -1,6 +1,6 @@
 
 const autoSpawningRoomInit = require('./autoSpawning.init');
-const spawning = require('./autoSpawning.spawning');
+const autoSpawning = require('./autoSpawning.spawning');
 // const respawning = require('./autoSpawning.respawning');
 const deathChecker = require('./autoSpawning.deathChecker');
 
@@ -24,7 +24,8 @@ const deathChecker = require('./autoSpawning.deathChecker');
 
         deathChecker(ticksBetweenDeathChecks);
 
-          spawning(spawnName, roomName);
+        autoSpawning(spawnName, roomName);
+        //   spawning(spawnName, roomName);
         // respawning(spawnName, roomName);
 
     }

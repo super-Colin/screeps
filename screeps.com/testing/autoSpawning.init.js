@@ -13,8 +13,8 @@ function autoSpawningRoomInit(currentRoomName){
         Memory.creepInfo[currentRoomName] = {};
         // Memory.creepInfo[currentRoomName].roomCreepSpawnQueue = {toDelete: 'value'};
         // Memory.creepInfo[currentRoomName].roomCreepSpawnQueue = {};
-        console.log('roomCreepSpawnQueue :  [from initJS]');
-        console.log(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue);
+        // console.log('roomCreepSpawnQueue :  [from initJS]');
+        // console.log(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue);
 
         // let firstKeyValue = Object.keys(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue)[0];
         // console.log(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue[firstKeyValue]);
@@ -82,27 +82,28 @@ function autoSpawningRoomInit(currentRoomName){
         };
         console.log('defined spawn queue in room : ' + currentRoomName);
     }
-    console.log('roomCreepSpawnQueue :  [from initJS]');
-    console.log(currentRoomName);
-    console.log(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue);
+    // console.log('roomCreepSpawnQueue :  [from initJS]');
+    // console.log(currentRoomName);
+    // console.log(Memory.creepInfo[currentRoomName].roomCreepSpawnQueue);
     
 
 
     
     for (let roleGroup in Memory.creepInfo[currentRoomName]) {
         
-        if (Memory.creepInfo[currentRoomName][roleGroup]['numberAliveNow'] == undefined) {
-
+        if (
+               Memory.creepInfo[currentRoomName][roleGroup].numberAliveNow == undefined
+            && Memory.creepInfo[currentRoomName][roleGroup] != 'roomCreepSpawnQueue'
+        ) {
             // console.log('role not defined');
             // console.log(roleGroup);
-            
-            Memory.creepInfo[currentRoomName][roleGroup]['numberAliveNow'] = 0;
-            Memory.creepInfo[currentRoomName][roleGroup]['currentRoleNumber'] = 1;
-
+            Memory.creepInfo[currentRoomName][roleGroup].numberAliveNow = 0;
+            Memory.creepInfo[currentRoomName][roleGroup].currentRoleNumber = 1;
+            Memory.creepInfo.roles.push(roleGroup);
             // console.log(roleGroup['currentRolenumber']);
         }
         else{
-            // console.log('role group : ' + roleGroup + ', roleNumber : ' + Memory.creepInfo[currentRoomName][roleGroup].currentRoleNumber +' is already defined');
+            console.log('role group : ' + roleGroup + ', roleNumber : ' + Memory.creepInfo[currentRoomName][roleGroup].currentRoleNumber +' is already defined');
         }
 
     }
