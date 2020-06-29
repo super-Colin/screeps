@@ -1,4 +1,4 @@
-const autoSpawn = require('./autoSpawning/autoSpawn');
+const autoSpawn = require('./autoSpawn.module');
 
 const roleHarvester = require('role.harvester');
 const roleBuilder = require('role.builder');
@@ -21,7 +21,10 @@ module.exports.loop = function () {
     // AUTO SPAWNING FOR EACH SPAWN
     let ticksBetweenDeathChecks = 2;
     for(let spawn in Game.spawns){
-        autoSpawn(spawn, ticksBetweenDeathChecks);
+        let roomSpawnIsIn = Game.spawns[spawn].room.name;
+        // console.log(spawn);
+        // console.log(roomSpawnIsIn);
+        autoSpawn(spawn, roomSpawnIsIn, ticksBetweenDeathChecks);
     }
 
 
