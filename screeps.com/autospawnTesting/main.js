@@ -1,10 +1,12 @@
 const autoSpawningModule = require('./autoSpawn.module');
 const roleHarvester = require('./role.harvester');
+const roleBuilder = require('./role.builder');
 
 
 module.exports.loop = function () {
 
-    const debugLevel = 3;
+    // AT DEBUG LEVEL 5 CREEP META INFO WILL BE REFRESHED
+    const debugLevel = 4;
     const ticksBetweenChecks = 3;
 
     // Place a line at the top of each tick's console log
@@ -26,7 +28,7 @@ module.exports.loop = function () {
         let currentRoomName = Game.spawns[spawn].room.name;
         let roomControllerLevel = 'rc' + Game.spawns[spawn].room.controller.level;
 
-        if (debugLevel > 0){console.log('main loop current spawn & room : ' + spawn + ' & ' + currentRoomName);}
+        if (debugLevel > 4){console.log('main loop current spawn & room : ' + spawn + ' & ' + currentRoomName);}
 
         // RUN OUR AUTO SPAWN MODULE FOR THIS SPAWN AT THIS ROOM LEVEL
         autoSpawningModule(spawn, currentRoomName, roomControllerLevel, ticksBetweenChecks, debugLevel);
@@ -37,10 +39,17 @@ module.exports.loop = function () {
     for(let creep in Game.creeps){
         const creepRef = Game.creeps[creep];
         switch(creepRef.memory.role){
+
             case 'harvester':
-                if (debugLevel > 2) {console.log('harvester running');}
+                
                 roleHarvester.run(creepRef, debugLevel);
             break;
+
+            case 'builder':
+                
+                roleBuilder.run(creepRef, debugLevel);
+            break;
+             
         }
     }
 

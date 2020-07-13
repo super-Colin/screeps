@@ -5,7 +5,7 @@ const autoSpawningSpawn = require("./autoSpawning.spawn");
 
 function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathChecks = 3, debugLog = 0) {
 
-    if (debugLog > 0) {console.log('-');console.log('!>! starting autoSpawnMODULE function !<!');console.log('-');}
+    if (debugLog > 0) {console.log('!>! starting autoSpawnMODULE function !<!');}
 
     // CHECK FOR OR MAKE Memory.creepMetaInfo.creepRoles
     autoSpawningInit(debugLog);
@@ -17,8 +17,6 @@ function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathCheck
     if (Game.time % ticksBetweenDeathChecks == 0) {
         for (let name in Memory.creeps) {
             if (!Game.creeps[name]) {
-                console.log('deleted role was ' + Memory.creeps[name].role);
-                console.log('deleted roleNumber was ' + Memory.creeps[name].roleNumber);
                 delete Memory.creeps[name];
                 console.log('Clearing non-existing creep memory:', name);
             }
@@ -26,13 +24,12 @@ function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathCheck
     }
 
 
-    // 
     autoSpawningSpawn(spawnName, roomName, rcLevel, ticksBetweenDeathChecks, debugLog);
 
 
 
 
-    if (debugLog > 0) {console.log('-');console.log('!>! Ending autoSpawnMODULE function !<!');console.log('-');}
+    if (debugLog > 0) {console.log('!>! Ending autoSpawnMODULE function !<!');}
 }
 
 module.exports = autoSpawningModule;

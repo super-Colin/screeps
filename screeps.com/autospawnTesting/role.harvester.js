@@ -1,36 +1,53 @@
+const getEnergy = require('./task.getEnergy');
+const storeEnergy = require('./task.storeEnergy');
+const build = require('./task.build');
+const upgradeRoom = require('./task.upgradeRoom');
 
-var roleHarvester = {
+
+let roleHarvester = {
 
     /** @param {Creep} creep **/
-    run: function(creep, debugLog = 0) {
-	    if(creep.store.getFreeCapacity() > 0) {
-            var source = creep.pos.findClosestByRange(FIND_SOURCES_ACTIVE);
-            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-        }
-        else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION ||
-                                structure.structureType == STRUCTURE_SPAWN ||
-                                structure.structureType == STRUCTURE_TOWER) && 
-                                structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-                    }
-            });
-            if(targets.length > 0) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                }
-            }
-            else if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
+    run: function (creep, debugLevel) {
+        if (debugLevel > 2) {console.log('role.harvester running');}
 
-                if(debugLog > 2){console.log('harvester: ' + creep + ' is bored');}
-            }
+        let freeCapacity = creep.store.getFreeCapacity();
+        let currentEnergy = creep.store[RESOURCE_ENERGY];
 
-        }
+        // ---------- Decide what to do ------------ 
+        // Based on a single if-else: if the first thing is doable it will ignore lower jobs
         
-	}
-};
+        // Refill energy if it has run out
+        if (currentEnergy == 0 && creep.memory.task != 'getEnergy'){
+            getEnergy(creep);
+        } 
+        // If we were just gathering energy keep gathering until full
+        else if(freeCapacity > 0 && creep.memory.task == 'getEnergy'){
+            getEnergy(creep);
+        }
+        // ----- AFTER FILLING ENERGY SET TASK UNTIL IT RETURNS FALSE -----
+
+        
+        // Store the energy anywhere that can hold it
+        else if (currentEnergy > 0 && storeEnergy(creep)) {
+            storeEnergy(creep);
+        }
+
+        // Build something if possible
+        else if (currentEnergy > 0 && build(creep)) {
+            
+            build(creep);
+        }
+
+        // Fall back to upgrading the room controller if nothing else need doing
+        else {
+            creep.memory.task = 'upgrade';
+            upgradeRoom(creep);
+        }
+    }
+
+}
+
 
 module.exports = roleHarvester;
+
+

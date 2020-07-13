@@ -30,7 +30,6 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
             let roleNumber = 1;
             // LOOP THROUGH THE ROLE GROUP 
             for(let i = 0; i < roleNumberToMaintain; i++){
-                if(debugLog > 2){if(roleGroup[i] != undefined){console.log('roleGroup[' + i + '] is : ');console.log(typeof(roleGroup[i]));console.log(JSON.stringify(roleGroup[i]));console.log('name of it is: ' + roleGroup[i].name);}}
 
                 // CHECKING FOR THE FIRST MISSING ROLE NUMBER TO FILL
                 if(roleGroup[i] != undefined){
