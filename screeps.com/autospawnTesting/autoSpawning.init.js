@@ -1,4 +1,4 @@
-
+const harvester = require('./role.harvester.init');
 
 // MAKE SURE META INFORMATION IS STORED FOR SPAWNS
 function autoSpawningInit(debugLog = 0){
@@ -26,25 +26,26 @@ function autoSpawningInit(debugLog = 0){
         // INTO MEMORY
         Memory.creepMetaInfo.creepRoles = {
 
-            harvester: {
-                roleName: 'harvester',
-                rc1:{
-                    numberToMaintain: 3,
-                    bodyParts: [WORK, CARRY, MOVE, MOVE]
-                },
-                rc2:{
-                    numberToMaintain: 4,
-                    bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE]
-                },
-                rc3:{
-                    numberToMaintain: 5,
-                    bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE, MOVE]
-                },
-                rc4:{
-                    numberToMaintain: 6,
-                    bodyParts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE]
-                }
-            },
+            // harvester: {
+            //     roleName: 'harvester',
+            //     rc1:{
+            //         numberToMaintain: 3,
+            //         bodyParts: [WORK, CARRY, MOVE, MOVE]
+            //     },
+            //     rc2:{
+            //         numberToMaintain: 4,
+            //         bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE]
+            //     },
+            //     rc3:{
+            //         numberToMaintain: 5,
+            //         bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE, MOVE]
+            //     },
+            //     rc4:{
+            //         numberToMaintain: 6,
+            //         bodyParts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE]
+            //     }
+            // },
+            harvester,
             
             builder: {
                 roleName: 'builder',

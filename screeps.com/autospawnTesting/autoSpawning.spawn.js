@@ -31,15 +31,19 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
             // LOOP THROUGH THE ROLE GROUP 
             for(let i = 0; i < roleNumberToMaintain; i++){
                 if(debugLog > 2){if(roleGroup[i] != undefined){console.log('roleGroup[' + i + '] is : ');console.log(typeof(roleGroup[i]));console.log(JSON.stringify(roleGroup[i]));console.log('name of it is: ' + roleGroup[i].name);}}
-                
 
                 // CHECKING FOR THE FIRST MISSING ROLE NUMBER TO FILL
                 if(roleGroup[i] != undefined){
+
                     let creepNameObject = roleGroup[i].name.split(' ');
                     const checkAgainstRoleNum = creepNameObject[creepNameObject.length - 1];
+
+                    // IF NUMBER IS LESS THAN MAX AND NOT OUR CURRENT NUMBER IT WILL WORK
                     if (roleNumber != checkAgainstRoleNum && checkAgainstRoleNum <= roleNumberToMaintain) {
+                        // SO BREAK OUT OF THE FOR LOOP
                         break;
                     }else{
+                        // OTHERWISE TRY THE NEXT NUMBER
                         roleNumber++;
                     }
 
