@@ -1,34 +1,68 @@
 
+// THE MAIN SPAWNING FUNCTION
+// 
+function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetweenChecks = 3, debugLog = 0) {
+    if (debugLog > 0) {console.log('!>- Starting roomAutoSpawning function -<!');}
 
-function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetweenChecks = 3, debugLog) {
-    if (debugLog == true) {console.log('!>- Starting roomAutoSpawning function -<!');}
-
+    // GET JSON DATA ABOUT OUR ROLES AND NUMBER TO MAINTAIN
+    // WHICH WAS HANDLED BY AUTOSPAWN INIT
     const creepRolesInfo = Memory.creepMetaInfo.creepRoles;
 
+    // LOOP THROUGH EACH ROLE AND SEE WHAT NEEDS TO BE SPAWNED
     for(let roleName in creepRolesInfo){
 
-        console.log(typeof(roleName));
-        console.log(roleName);
-
-
+        // CHECK HOW MANY CREEPS WITH THIS ROLE AND THIS HOME ROOM, ALIVE NOW
         const roleGroup = _.filter(Game.creeps, (creep) => 
            creep.memory.role == roleName 
         && creep.memory.homeRoom == currentRoomName
         );
+        const roleNumberToMaintain = Memory.creepMetaInfo.creepRoles[roleName][rcLevel].numberToMaintain;
 
-
+        // LOG HOW MANY OF THIS ROLE ARE ALIVE / HOW MANY SHOULD BE ALIVE
         console.log(roleName + 's: ' + roleGroup.length + ' / ' + creepRolesInfo[roleName][rcLevel].numberToMaintain);
 
 
-        if(roleGroup.length < Memory.creepMetaInfo.creepRoles[roleName][rcLevel].numberToMaintain){
-            let newName = roleName + Game.time;
-            console.log('Working on a new ' + roleName + ': ' + newName);
+
+        // IF FEWER OF THIS ARE ALIVE THAN SHOULD BE, SPAWN ONE OF THIS ROLE
+        if(roleGroup.length < roleNumberToMaintain){
+            if(debugLog > 2){console.log('roleGroup is: ');console.log(roleGroup)};
+
+            let roleNumber = 1;
+            // LOOP THROUGH THE ROLE GROUP 
+            for(let i = 0; i < roleNumberToMaintain; i++){
+                if(debugLog > 2){if(roleGroup[i] != undefined){console.log('roleGroup[' + i + '] is : ');console.log(typeof(roleGroup[i]));console.log(JSON.stringify(roleGroup[i]));console.log('name of it is: ' + roleGroup[i].name);}}
+                
+
+                // CHECKING FOR THE FIRST MISSING ROLE NUMBER TO FILL
+                if(roleGroup[i] != undefined){
+                    let creepNameObject = roleGroup[i].name.split(' ');
+                    const checkAgainstRoleNum = creepNameObject[creepNameObject.length - 1];
+                    if (roleNumber != checkAgainstRoleNum && checkAgainstRoleNum <= roleNumberToMaintain) {
+                        break;
+                    }else{
+                        roleNumber++;
+                    }
+
+                    if(debugLog > 2){console.log('checkAgainstRoleNum is : ' + checkAgainstRoleNum);}
+
+
+                }
+                
+            }
+ 
+    
+
+            
+
+            let newName = roleName + ' ' + roleNumber;
+            console.log('Going to make a new ' + roleName + ' : ' + newName);
 
             Game.spawns[currentSpawnName].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName, {
+            // Game.spawns[currentSpawnName].spawnCreep(Memory.creepMetaInfo.creepRoles[roleName][rcLevel].bodyParts, newName, {
                 memory: {
                     taskObject: 'none',
                     role: roleName,
-                    roleNumber: 1,
+                    roleNumber: roleNumber,
                     roomCreated: currentRoomName,
                     homeRoom: currentRoomName
                 }
@@ -41,7 +75,7 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
 
 
 
-    if (debugLog == true) {console.log('!> Ending roomAutoSpawning function <!');}
+    if (debugLog > 0) {console.log('!> Ending roomAutoSpawning function <!');}
 }
 
 module.exports = roomAutoSpawning;

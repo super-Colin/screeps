@@ -4,7 +4,8 @@ const roleHarvester = require('./role.harvester');
 
 module.exports.loop = function () {
 
-    const debugLevel = 1;
+    const debugLevel = 3;
+    const ticksBetweenChecks = 3;
 
     // Place a line at the top of each tick's console log
     if (Game.time % 3 == 1) {
@@ -17,37 +18,29 @@ module.exports.loop = function () {
 
 
 
-    // Mem leak checker
-    for (let name in Memory.creeps) {
-        // console.log('mem leak');
-        if (!Game.creeps[name]) {
-            console.log('deleted role was ' + Memory.creeps[name].role);
-            console.log('deleted roleNum was ' + Memory.creeps[name].roleNum);
-            delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
-        }
-    }
-
-
     // AUTO SPAWNING CREEPS
     // ALSO HANDLES MEMORY LEAKS FOR DEAD CREEPS
     for(let spawn in Game.spawns){
+
+        // DEFINE OUR CURRENT ROOM NAME AND RC LEVEL AS STRINGS
         let currentRoomName = Game.spawns[spawn].room.name;
         let roomControllerLevel = 'rc' + Game.spawns[spawn].room.controller.level;
 
-        console.log('main loop current spawn & room : ' + spawn + ' & ' + currentRoomName);
+        if (debugLevel > 0){console.log('main loop current spawn & room : ' + spawn + ' & ' + currentRoomName);}
 
-        autoSpawningModule(spawn, currentRoomName, roomControllerLevel, 2, debugLevel);
+        // RUN OUR AUTO SPAWN MODULE FOR THIS SPAWN AT THIS ROOM LEVEL
+        autoSpawningModule(spawn, currentRoomName, roomControllerLevel, ticksBetweenChecks, debugLevel);
 
     }
 
+    // GIVE OUR CREEPS THEIR SET OF DIRECTIONS DEPENDING ON THEIR ROLE
     for(let creep in Game.creeps){
         const creepRef = Game.creeps[creep];
         switch(creepRef.memory.role){
             case 'harvester':
-                if (debugLevel > 1) {console.log('harvester running');}
+                if (debugLevel > 2) {console.log('harvester running');}
                 roleHarvester.run(creepRef, debugLevel);
-            break
+            break;
         }
     }
 

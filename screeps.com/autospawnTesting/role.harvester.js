@@ -25,7 +25,7 @@ var roleHarvester = {
             }
             else if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
 
-                if(debugLog > 1){console.log('harvester: ' + creep + ' is bored');}
+                if(debugLog > 2){console.log('harvester: ' + creep + ' is bored');}
             }
 
         }

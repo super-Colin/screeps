@@ -1,31 +1,38 @@
 
-// const respawning = require('./autoSpawning.respawning');
-
-const roomAutoSpawning = require("./autoSpawning.spawn");
 const autoSpawningInit = require("./autoSpawning.init");
-
+const autoSpawningSpawn = require("./autoSpawning.spawn");
 
 
 function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathChecks = 3, debugLog = 0) {
-    if (debugLog == true) {
-        console.log('-');
-        console.log('!>! starting autoSpawnMODULE function !<!');
-        console.log('-');
-    }
 
+    if (debugLog > 0) {console.log('-');console.log('!>! starting autoSpawnMODULE function !<!');console.log('-');}
 
+    // CHECK FOR OR MAKE Memory.creepMetaInfo.creepRoles
     autoSpawningInit(debugLog);
-
-    roomAutoSpawning(spawnName, roomName, rcLevel, ticksBetweenDeathChecks, debugLog);
-
+    // NOW WE HAVE JSON DATA ABOUT OUR CREEP ROLES
 
 
-    if (debugLog == true) {
-        console.log('-');
-        console.log('!>! Ending autoSpawnMODULE function !<!');
-        console.log('-');
+    // QUICK MEMORY CHECK FOR DEAD CREEPS TO AVOID A MEMORY LEAK
+    // BUT ALSO ONLY EVERY SO MANY TICKS
+    if (Game.time % ticksBetweenDeathChecks == 0) {
+        for (let name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                console.log('deleted role was ' + Memory.creeps[name].role);
+                console.log('deleted roleNumber was ' + Memory.creeps[name].roleNumber);
+                delete Memory.creeps[name];
+                console.log('Clearing non-existing creep memory:', name);
+            }
+        }
     }
-}
 
+
+    // 
+    autoSpawningSpawn(spawnName, roomName, rcLevel, ticksBetweenDeathChecks, debugLog);
+
+
+
+
+    if (debugLog > 0) {console.log('-');console.log('!>! Ending autoSpawnMODULE function !<!');console.log('-');}
+}
 
 module.exports = autoSpawningModule;

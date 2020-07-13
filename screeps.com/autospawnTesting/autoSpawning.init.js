@@ -1,18 +1,29 @@
 
 
-
+// MAKE SURE META INFORMATION IS STORED FOR SPAWNS
 function autoSpawningInit(debugLog = 0){
+    // CHECK FOR META INFO
+    if (debugLog > 0) {console.log('!AutoSpawn Init Is Firing!~~~~~~~~~~~~~~~~~~~~~~~')};
 
-    if (debugLog == true) {console.log('!AutoSpawn Init is Firing!~~~~~~~~~~~~~~~~~~~~~~~')};
     
     if(Memory.creepMetaInfo == undefined){
-        if (debugLog == true) {console.log('defining creep meta info');}
-
+        if (debugLog > 1) {console.log('defining creep meta info');}
         Memory.creepMetaInfo = {};
     }
-    if (Memory.creepMetaInfo.creepRoles == undefined) {
-        if (debugLog == true) {console.log('defining creep meta, creep roles');}
+    // IF META INFO IS THERE INGORE THE REST OF THE FUNCTION
+    if (Memory.creepMetaInfo.creepRoles != undefined) {
+        if (debugLog > 1) {
+            console.log('!AutoSpawn Init Wasn\'t Needed! Returning~~~~~')
+        };
+        return;
+    }
 
+    if (Memory.creepMetaInfo.creepRoles == undefined) {
+        if (debugLog > 1) {console.log('defining creep meta, creep roles');}
+
+        // PUT
+        // CREEP ROLES AND ASSOCIATED BODY PART ARRAYS AT DIFFERENT ROOM LEVELS
+        // INTO MEMORY
         Memory.creepMetaInfo.creepRoles = {
 
             harvester: {
@@ -135,16 +146,10 @@ function autoSpawningInit(debugLog = 0){
                 }
             },
         };
-
-        // 
-
+    } // </if>
 
 
-    }
-
-
-
-    if (debugLog == true) {console.log('!AutoSpawn Init is DONE!~~~~~~~~~~~~~~~~~~~~~~~')};
+    if (debugLog > 0) {console.log('!AutoSpawn Init is DONE!~~~~~~~~~~~~~~~~~~~~~~~')};
 }
 
 
