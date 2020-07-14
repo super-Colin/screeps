@@ -8,7 +8,7 @@ const builder = require('./role.builder.init');
 // IF DEBUG LEVEL IS 5 OR ABOVE IT WILL RE-INIT THE META INFO
 function autoSpawningInit(debugLevel = 0){
     // CHECK FOR META INFO
-    if (debugLevel > 0) {console.log('!AutoSpawn Init Is Firing!~~~~~~~~~~~~~~~~~~~~~~~')};
+    if (debugLevel > 0) {console.log('!AutoSpawn Init Is Firing!')};
 
     // 
     if(Memory.creepMetaInfo == undefined || debugLevel > 4){

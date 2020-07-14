@@ -2,7 +2,7 @@
 // THE MAIN SPAWNING FUNCTION
 // 
 function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetweenChecks = 3, debugLog = 0) {
-    if (debugLog > 0) {console.log('!>- Starting roomAutoSpawning function -<!');}
+    if (debugLog > 3) {console.log('!>- Starting roomAutoSpawning function -<!');}
 
     // GET JSON DATA ABOUT OUR ROLES AND NUMBER TO MAINTAIN
     // WHICH WAS HANDLED BY AUTOSPAWN INIT
@@ -25,7 +25,7 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
 
         // IF FEWER OF THIS ARE ALIVE THAN SHOULD BE, SPAWN ONE OF THIS ROLE
         if(roleGroup.length < roleNumberToMaintain){
-            if(debugLog > 2){console.log('roleGroup is: ');console.log(roleGroup)};
+            if(debugLog > 4){console.log('roleGroup is: ');console.log(roleGroup)};
 
             let roleNumber = 1;
             // LOOP THROUGH THE ROLE GROUP 
@@ -46,7 +46,7 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
                         roleNumber++;
                     }
 
-                    if(debugLog > 2){console.log('checkAgainstRoleNum is : ' + checkAgainstRoleNum);}
+                    if(debugLog > 4){console.log('checkAgainstRoleNum is : ' + checkAgainstRoleNum);}
 
 
                 }

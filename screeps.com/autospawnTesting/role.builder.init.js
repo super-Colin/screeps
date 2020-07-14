@@ -3,11 +3,11 @@ const builderRoleMeta = {
 
     roleName: 'builder',
     rc1:{
-        numberToMaintain: 2,
+        numberToMaintain: 3,
         bodyParts: [WORK, CARRY, CARRY, MOVE]
     },
     rc2:{
-        numberToMaintain: 3,
+        numberToMaintain: 5,
         bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE]
     },
     rc3:{

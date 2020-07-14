@@ -10,9 +10,9 @@ const cityPlan = require('./task.cityPlan');
 let roleBuilder = {
 
     /** @param {Creep} creep **/
-    run: function (creep, debugLevel) {
+    run: function (creep, debugLevel = 0) {
 
-        if (debugLevel > 2) {console.log('role.builder running');}
+        if (debugLevel > 4) {console.log('role.builder running');}
 
         let freeCapacity = creep.store.getFreeCapacity();
         let currentEnergy = creep.store[RESOURCE_ENERGY];
@@ -34,7 +34,7 @@ let roleBuilder = {
         // CITY PLANNING UNTIL ROOM LEVEL REQUIREMENTS ARE MET (NEW EXTENSIONS, TOWERS ETC.)
         else if (currentEnergy > 0 && cityPlan(creep)) {
             console.log('city Planning');
-            cityPlan(creep);
+            cityPlan(creep, debugLevel);
             // build(creep);
         }
 

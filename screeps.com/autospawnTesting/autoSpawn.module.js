@@ -5,7 +5,7 @@ const autoSpawningSpawn = require("./autoSpawning.spawn");
 
 function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathChecks = 3, debugLog = 0) {
 
-    if (debugLog > 0) {console.log('!>! starting autoSpawnMODULE function !<!');}
+    if (debugLog > 3) {console.log('!>! starting autoSpawnMODULE function !<!');}
 
     // CHECK FOR OR MAKE Memory.creepMetaInfo.creepRoles
     autoSpawningInit(debugLog);
@@ -22,14 +22,9 @@ function autoSpawningModule(spawnName, roomName, rcLevel, ticksBetweenDeathCheck
             }
         }
     }
-
-
     autoSpawningSpawn(spawnName, roomName, rcLevel, ticksBetweenDeathChecks, debugLog);
 
-
-
-
-    if (debugLog > 0) {console.log('!>! Ending autoSpawnMODULE function !<!');}
+    if (debugLog > 3) {console.log('!>! Ending autoSpawnMODULE function !<!');}
 }
 
 module.exports = autoSpawningModule;

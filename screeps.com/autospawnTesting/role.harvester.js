@@ -8,7 +8,7 @@ let roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function (creep, debugLevel) {
-        if (debugLevel > 2) {console.log('role.harvester running');}
+        if (debugLevel > 4) {console.log('role.harvester running');}
 
         let freeCapacity = creep.store.getFreeCapacity();
         let currentEnergy = creep.store[RESOURCE_ENERGY];
@@ -32,11 +32,10 @@ let roleHarvester = {
             storeEnergy(creep);
         }
 
-        // Build something if possible
-        else if (currentEnergy > 0 && build(creep)) {
-            
-            build(creep);
-        }
+        // // Build something if possible
+        // else if (currentEnergy > 0 && build(creep)) {
+        //     build(creep);
+        // }
 
         // Fall back to upgrading the room controller if nothing else need doing
         else {
