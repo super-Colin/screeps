@@ -2,15 +2,15 @@
 const harvesterRoleMeta = {
     roleName: 'harvester',
     rc1: {
-        numberToMaintain: 3,
+        numberToMaintain: 4,
         bodyParts: [WORK, CARRY, CARRY, MOVE]
     },
     rc2: {
-        numberToMaintain: 5,
+        numberToMaintain: 7,
         bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE]
     },
     rc3: {
-        numberToMaintain: 7,
+        numberToMaintain: 8,
         bodyParts: [WORK, CARRY, CARRY, CARRY, MOVE, MOVE]
     },
     rc4: {

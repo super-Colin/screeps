@@ -1,3 +1,5 @@
+const cityPlanNewRoads = require("./task.cityPlan.newRoads");
+
 var roleRoadWorker = {
 
     /** @param {Creep} creep **/
@@ -12,15 +14,24 @@ var roleRoadWorker = {
 			Memory.roadStage[creep.room.name] = 1;
 			console.log('set roadStage for room ' + creep.room.name + ' to ' + '1');
 		}
-		// switch (Memory.roadStage[creep.room.name]){
-		// 	case '1': console.log('road construction phase 1');
 
-		// 	case '2': console.log('road construction phase 2');
+		switch (Memory.roadStage[creep.room.name]){
+			
+			case '1': 
+				console.log('road construction phase 1');
+				cityPlanNewRoads(creep);
+				break;
 
-		// 	case '3': console.log('road construction phase 3');
+			case '2': 
+				console.log('road construction phase 2');
+				break;
 
-		// 	default: console.log('roadWorker switch default case!!??!!?!1?!')
-		// }
+			case '3': 
+				console.log('road construction phase 3');
+				break;
+
+			default: console.log('roadWorker switch default case!!??!!?!1?!')
+		}
 
 
 	}

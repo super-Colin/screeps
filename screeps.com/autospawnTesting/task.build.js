@@ -2,10 +2,17 @@
 function build(creep){
     creep.memory.task = 'build';
     
-    var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-    if(targets.length) {
-        if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+    var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+    if(constructionSites.length) {
+        
+        let jobPosition = (creep.memory.roleNumber - 1) % 4;
+
+        if(constructionSites[jobPosition] == undefined){
+            jobPosition = 0;
+        }
+        
+        if(creep.build(constructionSites[jobPosition]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(constructionSites[jobPosition], {visualizePathStyle: {stroke: '#ffffff'}});
         }
         return true;
     } else {

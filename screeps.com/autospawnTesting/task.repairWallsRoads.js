@@ -15,7 +15,7 @@ function repairWallsRoads(creep){
         return false;
     }
     // If creep is new give it a taskObject to remember
-    // You can only save the id an object in memory so it must be refered to from here on
+    // You can only save the id of an object in memory so it must be refered to from here on
     if (creep.memory.taskObjectId == undefined || creep.memory.taskObjectId == null) {
         creep.memory.taskObjectId = targets[0].id;
         toRepair = Game.getObjectById(creep.memory.taskObjectId);

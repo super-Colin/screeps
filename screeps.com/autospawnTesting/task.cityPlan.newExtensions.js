@@ -23,8 +23,9 @@ function cityPlanNewExtensions(creep, debugLevel = 0) {
     
 
     if(debugLevel > 2){console.log('extension planning spiral loop iterations will be : ' + creep.room.controller.level)};
-    let spiralLoopIterations = creep.room.controller.level;
     
+    
+    let spiralLoopIterations = creep.room.controller.level;
     let i = 0;
     while (i < spiralLoopIterations) {
         // TRACE OUT A SPIRAL IN THE GIRD CENTERED AROUND SPAWN

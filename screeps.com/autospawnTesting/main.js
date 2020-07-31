@@ -41,7 +41,7 @@ module.exports.loop = function () {
         switch(creepRef.memory.role){
 
             case 'harvester':
-                
+
                 roleHarvester.run(creepRef, debugLevel);
             break;
 

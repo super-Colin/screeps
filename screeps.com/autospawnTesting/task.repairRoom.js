@@ -1,5 +1,5 @@
 
-function repairRoom(creep, repairWalls = true, hitLimit = 100000){
+function repairRoom(creep, repairWalls = true, hitLimit = 10000){
     let taskString;
     if(repairWalls){
         taskString = 'repairWalls'; 

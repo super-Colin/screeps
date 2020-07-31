@@ -1,6 +1,5 @@
 const getEnergy = require('./task.getEnergy');
 const storeEnergy = require('./task.storeEnergy');
-const build = require('./task.build');
 const upgradeRoom = require('./task.upgradeRoom');
 
 
@@ -18,11 +17,19 @@ let roleHarvester = {
         
         // Refill energy if it has run out
         if (currentEnergy == 0 && creep.memory.task != 'getEnergy'){
-            getEnergy(creep);
+            if(creep.memory.roleNumber > 5){
+                getEnergy(creep, false);
+            }else{
+                getEnergy(creep);
+            }
         } 
         // If we were just gathering energy keep gathering until full
         else if(freeCapacity > 0 && creep.memory.task == 'getEnergy'){
-            getEnergy(creep);
+            if (creep.memory.roleNumber > 5) {
+                getEnergy(creep, false);
+            } else {
+                getEnergy(creep);
+            }
         }
         // ----- AFTER FILLING ENERGY SET TASK UNTIL IT RETURNS FALSE -----
 

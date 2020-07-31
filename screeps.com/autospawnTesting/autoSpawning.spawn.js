@@ -60,8 +60,8 @@ function roomAutoSpawning(currentSpawnName, currentRoomName, rcLevel, ticksBetwe
             let newName = roleName + ' ' + roleNumber;
             console.log('Going to make a new ' + roleName + ' : ' + newName);
 
-            Game.spawns[currentSpawnName].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName, {
-            // Game.spawns[currentSpawnName].spawnCreep(Memory.creepMetaInfo.creepRoles[roleName][rcLevel].bodyParts, newName, {
+            // Game.spawns[currentSpawnName].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName, {
+            Game.spawns[currentSpawnName].spawnCreep(Memory.creepMetaInfo.creepRoles[roleName][rcLevel].bodyParts, newName, {
                 memory: {
                     taskObject: 'none',
                     role: roleName,
