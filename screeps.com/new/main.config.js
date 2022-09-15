@@ -30,7 +30,7 @@ const config = {
     "repairWallMin": 100,
     "repairWallMax": 1000,
     "jobs":{ // the number of creeps of each type we want to maintain
-      "harvester":3,
+      "harvester":1,
       // "upgrader":2,
       // "builder":1,
       // "tester":1,
@@ -56,8 +56,8 @@ const config = {
     "repairWallMin": 10000,
     "repairWallMax": 100000,
     "jobs":{
-      "harvester":4,
-      // "upgrader":8,
+      "harvester":1,
+      // "maintainer":,
       // "builder":3,
       // "tester":4,
     },

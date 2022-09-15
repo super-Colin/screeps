@@ -5,9 +5,9 @@ const storeEnergy = require('./task.storeEnergy');
 const upgradeRoom = require('./task.upgradeRoom');
 const withdrawEnergy = require('./task.withdrawEnergy');
 
-// const repairWallsRoads = require('harvester.bodyParts');
+// const repairWallsRoads = require('maintainer.bodyParts');
 
-let harvesterBehavior = {
+let maintainerBehavior = {
 
     /** @param {Creep} creep **/
     general: function (creep) {
@@ -75,4 +75,4 @@ let harvesterBehavior = {
 
 };
 
-module.exports = harvesterBehavior;
+module.exports = maintainerBehavior;
