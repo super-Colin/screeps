@@ -14,6 +14,7 @@ let harvesterBehavior = {
         // init creep task memory, start by harvesting some energy
         if( creep.memory.task == undefined){
             creep.memory.task = "harvestEnergy";
+            creep.say('🔆 Hello!');
         }
 
         switch(creep.memory.task){

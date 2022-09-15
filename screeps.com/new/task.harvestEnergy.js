@@ -8,8 +8,8 @@ function harvestEnergy(creep, useClosest = true) {
 
         // Find the closest place to mine
         let closestByPath = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE)
-        console.log(closestByPath)
-        console.log(closestByPath.id)
+        // console.log(closestByPath)
+        // console.log(closestByPath.id)
 
         // if none return false
         if(closestByPath == null){
@@ -20,23 +20,23 @@ function harvestEnergy(creep, useClosest = true) {
         // otherwise set a targetId for a source
         creep.say('🌀 Harvesting Energy');
         if(useClosest){
-            console.log("setting creep targetId for harvesting")
+            // console.log("setting creep targetId for harvesting")
             creep.memory.targetId = closestByPath.id;
         }else{
             let otherEnergySources = creep.room.find(FIND_SOURCES_ACTIVE, {
                 filter: (source) => {
-                    console.log("source is:")
-                    console.log(source)
+                    // console.log("source is:")
+                    // console.log(source)
                     return (source.id != closestByPath.id);
                 }
             });
-            console.log("other sources are: ")
-            console.log(otherEnergySources)
+            // console.log("other sources are: ")
+            // console.log(otherEnergySources)
 
 
             if (otherEnergySources.length > 0) {
                 // pick a random source to use as target... I know it's bad..
-                console.log("setting creep targetId for harvesting")
+                // console.log("setting creep targetId for harvesting")
                 creep.memory.targetId = otherEnergySources[Math.floor(Math.random() * otherEnergySources.length)].id;
             }else{
                 creep.memory.targetId = closestByPath.id;
@@ -58,8 +58,8 @@ function harvestEnergy(creep, useClosest = true) {
 
 
     let creepTarget = Game.getObjectById(creep.memory.targetId);
-    console.log("creepTarget is: ");
-    console.log(creepTarget);
+    // console.log("creepTarget is: ");
+    // console.log(creepTarget);
     let workResult = creep.harvest(creepTarget);
 
     switch(workResult){

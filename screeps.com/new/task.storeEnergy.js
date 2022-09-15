@@ -3,7 +3,6 @@ const configs = require("main.config");
 function storeEnergy(creep, useClosest = true) {
     if( creep.memory.status != "storing" || creep.memory.targetId == undefined ){
         creep.memory.task = "storeEnergy"
-        creep.memory.status = "storing"
         creep.say('💲 Storing Energy');
 
 // const extensions = Game.spawns['Spawn1'].room.find(FIND_MY_STRUCTURES, {
@@ -11,6 +10,8 @@ function storeEnergy(creep, useClosest = true) {
 // });
 // console.log('Spawn has '+extensions.length+' extensions available');
 
+
+        //Pick a target to store the energy in
         var energyStores = creep.room.find(FIND_MY_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
@@ -26,6 +27,10 @@ function storeEnergy(creep, useClosest = true) {
         let closestByPath = creep.pos.findClosestByPath(energyStores)
         console.log("closest energy store is : " + energyStores.length)
         console.log(closestByPath)
+        if(closestByPath == null){
+            creep.memory.status = "done";
+            return false;
+        }
 
 
         if(useClosest || energyStores.length == 1){
@@ -44,7 +49,7 @@ function storeEnergy(creep, useClosest = true) {
 
             if (otherEnergyStores.length > 0) {
                 // pick a random source to use as target... I know it's bad..
-                console.log("setting creep targetId for harvesting")
+                console.log("setting creep targetId for storing")
                 creep.memory.targetId = otherEnergyStores[Math.floor(Math.random() * otherEnergyStores.length)].id;
             }else{
                 creep.memory.status = "blocked";
@@ -94,27 +99,8 @@ function storeEnergy(creep, useClosest = true) {
             return true;
     }
 
-
-
-
-
-
-
-
-    // if (energyStores.length > 0) {
-    //     if (creep.transfer(energyStores[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-    //         creep.moveTo(energyStores[0], {visualizePathStyle: {stroke: configs.colors.paths.energy}});
-    //         return true;
-    //     }
-    // } else {
-    //     console.log('There is nowhere to store more energy in this room');
-    //     return false; // return false so we know we can do something else
-    // }
+    return false;
 }
-
-
-
-
 
 
 module.exports = storeEnergy;

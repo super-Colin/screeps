@@ -3,10 +3,12 @@ const configs = require("./main.config");
 const autoSpawn = require('./autoSpawn.main');
 
 const roleHarvester = require('./role.harvester.main');
+const roleBuilder = require('./role.builder.main');
 
 
 const behaviors = {
-  "harvester":roleHarvester.run
+  "harvester":roleHarvester.run,
+  "builder":roleBuilder.run
 }
 
 

@@ -1,7 +1,7 @@
 
 const harvesterBodyParts = require("./role.harvester.bodyParts");
+const builderBodyParts = require("./role.builder.bodyParts");
 // const upgraderBodyParts = require("./upgrader.bodyParts");
-// const builderBodyParts = require("./builder.bodyParts");
 // const testerBodyParts = require("./tester.bodyParts");
 
 // just some definitions so they make sense when you see them:
@@ -31,14 +31,14 @@ const config = {
     "repairWallMax": 1000,
     "jobs":{ // the number of creeps of each type we want to maintain
       "harvester":1,
+      "builder":1,
       // "upgrader":2,
-      // "builder":1,
       // "tester":1,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_1,
+      "builder": builderBodyParts.rcLevel_1,
       // "upgrader": upgraderBodyParts.rcLevel_1,
-      // "builder": builderBodyParts.rcLevel_1,
       // "tester": testerBodyParts.rcLevel_1,
     },
     "priorities":{// these will be used for some decision making (higher = more important)
@@ -57,14 +57,14 @@ const config = {
     "repairWallMax": 100000,
     "jobs":{
       "harvester":1,
+      "builder":1,
       // "maintainer":,
-      // "builder":3,
       // "tester":4,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_2,
+      "builder": builderBodyParts.rcLevel_2,
       // "upgrader": upgraderBodyParts.rcLevel_2,
-      // "builder": builderBodyParts.rcLevel_2,
       // "tester": testerBodyParts.rcLevel_2,
     },
     "priorities":{
