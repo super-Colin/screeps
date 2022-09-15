@@ -1,4 +1,4 @@
-const configs = require("main.config");
+const configs = require("../main.config");
 
 const autoSpawn = require('./autoSpawn.module');
 
@@ -51,14 +51,5 @@ module.exports.loop = function () {
             // roleBuilder.run(creep);
         }
     }
-
-    
-
-
-
-    
-
-
-
     
 }

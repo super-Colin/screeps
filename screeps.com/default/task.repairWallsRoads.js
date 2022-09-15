@@ -1,6 +1,6 @@
 
 function repairWallsRoads(creep){
-    const wallLimit = 150000;
+    const wallLimit = 1500000;
     const targets = creep.room.find(FIND_STRUCTURES, {
         filter: object => 
            object.structureType == STRUCTURE_RAMPART
@@ -10,12 +10,13 @@ function repairWallsRoads(creep){
         && object.hits <= wallLimit
     });
 
+    // Sort by most damaged
     targets.sort((a, b) => a.hits - b.hits);
     if (targets == {} || targets == [] || targets == undefined || targets[0] == undefined) {
         return false;
     }
     // If creep is new give it a taskObject to remember
-    // You can only save the id an object in memory so it must be refered to from here on
+    // You can only save the id object in memory so it must be refered to from here on
     if (creep.memory.taskObjectId == undefined || creep.memory.taskObjectId == null) {
         creep.memory.taskObjectId = targets[0].id;
         toRepair = Game.getObjectById(creep.memory.taskObjectId);

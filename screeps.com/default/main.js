@@ -18,7 +18,7 @@ module.exports.loop = function () {
             console.log('deleted role was ' + Memory.creeps[name].role);
             console.log('deleted roleNum was ' + Memory.creeps[name].roleNum);
             delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
+            console.log('Cleared non-existing creep memory:', name);
         }
     }
 

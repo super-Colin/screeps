@@ -28,8 +28,8 @@ var roleHarvester = {
             else if (creep.store.getFreeCapacity() == 0 && targets.length == 0){
                 console.log('harvestors are bored and would like to upgrade');
                 // console.log('harvestors are bored and upgrading');
-                // upgradeRoom(creep);
                 repairWallsRoads(creep);
+                upgradeRoom(creep);
             }
 
         }
