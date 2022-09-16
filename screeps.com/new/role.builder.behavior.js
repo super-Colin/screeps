@@ -77,7 +77,7 @@ let builderBehavior = {
                         creep.memory.task = "withdrawEnergy";
                     }else if(creep.memory.status == "blocked"){
                         creep.memory.task = "upgradeRoom";
-                    }else if(creep.memory.status == "done"){
+                    }else if(creep.memory.status == "none"){
                         creep.memory.task = "upgradeRoom";
                     }
                 }

@@ -4,9 +4,6 @@ const harvestEnergy = require('./task.harvestEnergy');
 const storeEnergy = require('./task.storeEnergy');
 const upgradeRoom = require('./task.upgradeRoom');
 
-// const repairWallsRoads = require('./task.repairWallsRoads');
-// const repairWallsRoads = require('harvester.bodyParts');
-
 let harvesterBehavior = {
 
     /** @param {Creep} creep **/

@@ -25,6 +25,7 @@ const config = {
   "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomHealCheck" :2, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
+  "ticksBetweenRoomPlanningCheck" :1000, // Are we at war? Do we need more builders or harvesters?
 
 
   "minimumEnergyToPickup" : 50,
@@ -63,7 +64,7 @@ const config = {
       "harvester":3,
       "builder":2,
       "defender":0,
-      "planner":1,
+      "planner":2,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_2,

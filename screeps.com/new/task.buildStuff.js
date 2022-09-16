@@ -1,6 +1,6 @@
 const configs = require("./main.config");
 
-function buildStuff(creep, useClosest = true){
+function buildStuff(creep, constructionSitesFilter ='', useClosest = true){
 
 
     if( creep.memory.status != "building" || creep.memory.targetId == undefined ){
@@ -10,11 +10,20 @@ function buildStuff(creep, useClosest = true){
 
         //Pick a target to build
         let buildSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+        if(constructionSitesFilter != ''){
+            buildSites = buildSites.filter(constructionSitesFilter);
+            // return false if there's nothing after the filter
+            if(buildSites.length == 0){
+                creep.memory.status = "none";
+                return false;
+            }
+        }
+
         let closestByPath = creep.pos.findClosestByPath(buildSites)
         // console.log("closest build is : ")
         // console.log(closestByPath)
         if(closestByPath == null){
-            creep.memory.status = "done"
+            creep.memory.status = "none";
             return false;
         }
 
