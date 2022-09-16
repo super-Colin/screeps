@@ -2,7 +2,7 @@
 
 function upgradeRoom(creep){
 
-    if( creep.memory.status != "upgrading" || creep.memory.targetId == undefined ){
+    if( creep.memory.status != "upgrading"){
         creep.memory.task = "upgradeRoom"
         creep.memory.status = "upgrading"
         creep.say('⚡️ Upgrading Room');

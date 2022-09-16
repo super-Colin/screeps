@@ -1,8 +1,9 @@
 
+
 const harvesterBodyParts = require("./role.harvester.bodyParts");
 const builderBodyParts = require("./role.builder.bodyParts");
 const defenderBodyParts = require("./role.defender.bodyParts");
-// const testerBodyParts = require("./tester.bodyParts");
+const plannerBodyParts = require("./role.planner.bodyParts");
 
 // just some definitions so they make sense when you see them:
 // rc(Level) = Room Controller
@@ -22,6 +23,7 @@ const config = {
 
   "ticksBetweenDeathCheck" : 5,
   "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
+  "ticksBetweenRoomHealCheck" :2, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
 
 
@@ -35,13 +37,13 @@ const config = {
       "harvester":2,
       "builder":1,
       "defender":0,
-      // "tester":1,
+      "planner":1,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_1,
       "builder": builderBodyParts.rcLevel_1,
       "defender": defenderBodyParts.rcLevel_1,
-      // "tester": testerBodyParts.rcLevel_1,
+      "planner": plannerBodyParts.rcLevel_1,
     },
     "priorities":{// these will be used for some decision making (higher = more important)
       "harvest": 9,
@@ -61,13 +63,13 @@ const config = {
       "harvester":7,
       "builder":4,
       "defender":2,
-      // "tester":4,
+      "planner":1,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_2,
       "builder": builderBodyParts.rcLevel_2,
       "defender": defenderBodyParts.rcLevel_2,
-      // "tester": testerBodyParts.rcLevel_2,
+      "planner": plannerBodyParts.rcLevel_2,
     },
     "priorities":{
       "harvest": 9,
@@ -87,13 +89,13 @@ const config = {
       "harvester":9,
       "builder":6,
       "defender":4,
-      // "tester":4,
+      "planner":1,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_3,
       "builder": builderBodyParts.rcLevel_3,
       "defender": defenderBodyParts.rcLevel_3,
-      // "tester": testerBodyParts.rcLevel_3,
+      "planner": plannerBodyParts.rcLevel_3,
     },
     "priorities":{
       "harvest": 9,

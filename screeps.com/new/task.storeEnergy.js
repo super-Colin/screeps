@@ -25,8 +25,8 @@ function storeEnergy(creep, useClosest = true) {
 
 
         let closestByPath = creep.pos.findClosestByPath(energyStores)
-        console.log("closest energy store is : " + energyStores.length)
-        console.log(closestByPath)
+        // console.log("closest energy store is : " + energyStores.length)
+        // console.log(closestByPath)
         if(closestByPath == null){
             creep.memory.status = "done";
             return false;
@@ -34,8 +34,8 @@ function storeEnergy(creep, useClosest = true) {
 
 
         if(useClosest || energyStores.length == 1){
-            console.log("setting creep targetId for storing")
-            console.log(closestByPath.id)
+            // console.log("setting creep targetId for storing")
+            // console.log(closestByPath.id)
             creep.memory.targetId = closestByPath.id;
         }else{
             let otherEnergyStores = creep.room.find(FIND_SOURCES_ACTIVE, {
@@ -49,7 +49,7 @@ function storeEnergy(creep, useClosest = true) {
 
             if (otherEnergyStores.length > 0) {
                 // pick a random source to use as target... I know it's bad..
-                console.log("setting creep targetId for storing")
+                // console.log("setting creep targetId for storing")
                 creep.memory.targetId = otherEnergyStores[Math.floor(Math.random() * otherEnergyStores.length)].id;
             }else{
                 creep.memory.status = "blocked";
@@ -72,11 +72,11 @@ function storeEnergy(creep, useClosest = true) {
     // } // ... else{
 
     let creepTarget = Game.getObjectById(creep.memory.targetId);
-    console.log("creepTarget is: ");
-    console.log(creepTarget);
+    // console.log("creepTarget is: ");
+    // console.log(creepTarget);
     let workResult = creep.transfer(creepTarget, RESOURCE_ENERGY);
-    console.log("workResult is: ");
-    console.log(workResult);
+    // console.log("workResult is: ");
+    // console.log(workResult);
 
     switch(workResult){
         case OK:

@@ -11,22 +11,22 @@ function buildStuff(creep, useClosest = true){
         //Pick a target to build
         let buildSites = creep.room.find(FIND_CONSTRUCTION_SITES);
         let closestByPath = creep.pos.findClosestByPath(buildSites)
-        console.log("closest build is : ")
-        console.log(closestByPath)
+        // console.log("closest build is : ")
+        // console.log(closestByPath)
         if(closestByPath == null){
             creep.memory.status = "done"
             return false;
         }
 
         if(useClosest || buildSites.length == 1){
-            console.log("setting creep targetId for building")
-            console.log(closestByPath.id)
+            // console.log("setting creep targetId for building")
+            // console.log(closestByPath.id)
             creep.memory.targetId = closestByPath.id;
         }else{
             let otherSites = buildSites.filter((b)=>{return (b.id != closestByPath.id)})
             if (otherSites.length > 0) {
                 // pick a random source to use as target... I know it's bad..
-                console.log("setting creep targetId for building")
+                // console.log("setting creep targetId for building")
                 creep.memory.targetId = otherSites[Math.floor(Math.random() * otherSites.length)].id;
             }else{
                 creep.memory.status = "blocked";
@@ -42,11 +42,11 @@ function buildStuff(creep, useClosest = true){
 
 
     let creepTarget = Game.getObjectById(creep.memory.targetId);
-    console.log("creepTarget is: ");
-    console.log(creepTarget);
+    // console.log("[build] creepTarget is: ");
+    // console.log(creepTarget);
     let workResult = creep.build(creepTarget);
-    console.log("workResult is: ");
-    console.log(workResult);
+    // console.log("[build] workResult is: ");
+    // console.log(workResult);
 
     switch(workResult){
         case OK:

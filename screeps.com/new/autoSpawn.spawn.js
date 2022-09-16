@@ -9,7 +9,7 @@ const spawnFromQueue = function (spawn) {
   let scheduled = spawn.spawnCreep(
     configs['rcLevel_'+spawn.room.controller.level].bodyParts[role],
     newName,
-    {"memory": {"role": role}}
+    {"memory": {"role": role, "homeSpawnId":spawn.id}}
   );
   console.log('Working on a new ' + role + ': ' + newName + ", result :" + scheduled);
   switch(scheduled){
