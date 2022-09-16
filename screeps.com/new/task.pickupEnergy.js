@@ -74,9 +74,8 @@ function pickupEnergy(creep, useClosest = true) {
             return true;
     }
 
-
+    console.log("Returning default FALSE in task: pickupEnergy");
     return false;
-    
 }
 
 

@@ -1,7 +1,7 @@
 
 const harvesterBodyParts = require("./role.harvester.bodyParts");
 const builderBodyParts = require("./role.builder.bodyParts");
-// const upgraderBodyParts = require("./upgrader.bodyParts");
+const defenderBodyParts = require("./role.defender.bodyParts");
 // const testerBodyParts = require("./tester.bodyParts");
 
 // just some definitions so they make sense when you see them:
@@ -21,6 +21,7 @@ const config = {
   },
 
   "ticksBetweenDeathCheck" : 5,
+  "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
   "ticksBetweenDhseathCheck" : 3,
   "ticksBetweenDseathCheck" : 3,
@@ -32,13 +33,13 @@ const config = {
     "jobs":{ // the number of creeps of each type we want to maintain
       "harvester":1,
       "builder":1,
-      // "upgrader":2,
+      "defender":0,
       // "tester":1,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_1,
       "builder": builderBodyParts.rcLevel_1,
-      // "upgrader": upgraderBodyParts.rcLevel_1,
+      "defender": defenderBodyParts.rcLevel_1,
       // "tester": testerBodyParts.rcLevel_1,
     },
     "priorities":{// these will be used for some decision making (higher = more important)
@@ -58,13 +59,13 @@ const config = {
     "jobs":{
       "harvester":1,
       "builder":1,
-      // "maintainer":,
+      "defender":1,
       // "tester":4,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_2,
       "builder": builderBodyParts.rcLevel_2,
-      // "upgrader": upgraderBodyParts.rcLevel_2,
+      "defender": defenderBodyParts.rcLevel_2,
       // "tester": testerBodyParts.rcLevel_2,
     },
     "priorities":{
@@ -82,15 +83,15 @@ const config = {
     "repairWallMin": 100000,
     "repairWallMax": 3000000,
     "jobs":{
-      "harvester":6,
-      "upgrader":9,
-      "builder":4,
-      "tester":4,
+      "harvester":9,
+      "builder":6,
+      "defender":4,
+      // "tester":4,
     },
     "bodyParts":{
       "harvester": harvesterBodyParts.rcLevel_3,
-      // "upgrader": upgraderBodyParts.rcLevel_3,
-      // "builder": builderBodyParts.rcLevel_3,
+      "builder": builderBodyParts.rcLevel_3,
+      "defender": defenderBodyParts.rcLevel_3,
       // "tester": testerBodyParts.rcLevel_3,
     },
     "priorities":{

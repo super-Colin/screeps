@@ -69,13 +69,8 @@ function buildStuff(creep, useClosest = true){
             return true;
     }
 
-
-
-
-
-
-
-
+    console.log("Returning default FALSE in task: buildStuff");
+    return false;
 }
 
 

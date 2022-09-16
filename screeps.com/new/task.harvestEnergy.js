@@ -18,7 +18,7 @@ function harvestEnergy(creep, useClosest = true) {
             return false;
         }
         // otherwise set a targetId for a source
-        creep.say('🌀 Harvesting Energy');
+        creep.say('⛏️ Harvesting Energy');
         if(useClosest){
             // console.log("setting creep targetId for harvesting")
             creep.memory.targetId = closestByPath.id;
@@ -83,16 +83,9 @@ function harvestEnergy(creep, useClosest = true) {
             return true;
     }
 
-
-
-
-    return true;
+    console.log("Returning default FALSE in task: harvestEnergy");
+    return false;
     
 }
-
-
-
-
-
 
 module.exports = harvestEnergy;

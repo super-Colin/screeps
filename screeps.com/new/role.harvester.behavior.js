@@ -10,7 +10,7 @@ const upgradeRoom = require('./task.upgradeRoom');
 let harvesterBehavior = {
 
     /** @param {Creep} creep **/
-    general: function (creep) {
+    general: function (creep, hivemind) {
         // init creep task memory, start by harvesting some energy
         if( creep.memory.task == undefined){
             creep.memory.task = "harvestEnergy";
@@ -64,7 +64,7 @@ let harvesterBehavior = {
 
 
 
-    defensive: function (creep) {
+    defensive: function (creep, hivemind) {
     },
 
 

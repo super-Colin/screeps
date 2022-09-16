@@ -1,17 +1,17 @@
 
 
-const behavior = require('./role.builder.behavior');
+const behavior = require('./role.defender.behavior');
 
 
-let roleBuilder = {
+let roleDefender = {
     
     /** @param {Creep} creep **/
     run: function(creep, hivemind) {
-        hivemind.builders = {};
+        hivemind.defenders = {};
         // console.log("hivemind is :");
         // console.log(JSON.stringify(hivemind));
         behavior.general(creep, hivemind);
 	}
 };
 
-module.exports = roleBuilder;
+module.exports = roleDefender;

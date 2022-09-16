@@ -99,6 +99,7 @@ function storeEnergy(creep, useClosest = true) {
             return true;
     }
 
+    console.log("Returning default FALSE in task: storeEnergy");
     return false;
 }
 
