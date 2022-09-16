@@ -98,5 +98,16 @@ module.exports.loop = function () {
             // roleBuilder.run(creep);
         }
     }
+
+    // generate pixels with any remaining CPU
+    if(Game.cpu.bucket >= 10000){
+        if(Game.cpu.generatePixel() == OK){
+        console.log("MADE A PIXEL WITH SPARE CPU! :)");
+        };
+    }else{
+        // console.log('CPU bucket is: ' + Game.cpu.bucket);
+    }
+
+
     
 }

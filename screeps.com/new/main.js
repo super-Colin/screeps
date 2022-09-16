@@ -42,8 +42,20 @@ module.exports.loop = function () {
 
   }
 
-  console.log('hivemind closing thoughts: ');
-  console.log(JSON.stringify(hivemind));
+  // console.log('hivemind closing thoughts: ');
+  // console.log(JSON.stringify(hivemind));
+
+  // generate pixels with any remaining CPU
+  if(Game.cpu.bucket >= 10000){
+    if(Game.cpu.generatePixel() == OK){
+      console.log("MADE A PIXEL WITH SPARE CPU! :)");
+    };
+  }else{
+    // console.log('CPU bucket is: ' + Game.cpu.bucket);
+  }
+
+
+
 
 }
 
@@ -59,6 +71,9 @@ module.exports.loop = function () {
 // ⚡️ = Upgrade
 // 💰 = Store 
 // ⚔️ = Combat 
+// 🛡️ = Defend 
+// 🏗️ = Planning 
 
 // ✅ = Good
 // 
+// https://wiki.screepspl.us/index.php/Visuals_emoji

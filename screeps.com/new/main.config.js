@@ -9,7 +9,7 @@ const plannerBodyParts = require("./role.planner.bodyParts");
 // rc(Level) = Room Controller
 
 const config = {
-  "debugLevel":3,
+  "debugLevel":5,
 
   "colors":{
     "paths":{
@@ -60,9 +60,9 @@ const config = {
     "repairWallMin": 10000,
     "repairWallMax": 100000,
     "jobs":{
-      "harvester":7,
-      "builder":4,
-      "defender":2,
+      "harvester":3,
+      "builder":2,
+      "defender":0,
       "planner":1,
     },
     "bodyParts":{

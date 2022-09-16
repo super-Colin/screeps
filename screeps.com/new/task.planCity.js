@@ -11,7 +11,7 @@ function planCity(creep, useClosest = true) {
 
         // if none return false
         if(closestByPath == null){
-            creep.say('🌀 Nowhere to Pick up Energy');
+            creep.say('🏗️ Nowhere to Pick up Energy');
             creep.memory.status = "none";
             return false;
         }
@@ -22,7 +22,7 @@ function planCity(creep, useClosest = true) {
         }
 
         // otherwise set a targetId for a source
-        creep.say('🌀 Picking up Energy');
+        creep.say('🏗️ Picking up Energy');
         creep.memory.targetId = closestByPath.id;
 
     }

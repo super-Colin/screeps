@@ -10,7 +10,9 @@ let rolePlanner = {
 
         behavior.general(creep, hivemind);
 
-        // if(hivemind.war == true){let some = "some"}
+        // if(hivemind.war == true){
+        //     behavior.defensive(creep, hivemind);
+        // }
 	}
 };
 

@@ -11,7 +11,7 @@ function findTarget(creep){
 function defendRoom(creep) {
     if( creep.memory.status != "defending" || creep.memory.targetId == undefined ){
         creep.memory.task = "defendRoom"
-        creep.say('⚔️ Defending Room');
+        creep.say('🛡️ Defending Room');
 
         //Pick a target 
         creep.memory.targetId = findTarget(creep);
