@@ -20,6 +20,10 @@ function defendRoom(creep) {
             newTarget = newTarget ? newTarget : creep.pos.findClosestByPath(FIND_HOSTILE_CONSTRUCTION_SITES);
             newTarget = newTarget ? newTarget.id : 0;
             creep.memory.targetId = newTarget;
+            if(newTarget == 0){
+                creep.memory.status = "none";
+                return false;
+            }
         }else{
             // return false;
             return true;
@@ -28,10 +32,17 @@ function defendRoom(creep) {
     }
 
     let creepTarget = Game.getObjectById(creep.memory.targetId);
+    // If the hostile was killed remove it as the target
+    if(creepTarget == null || creepTarget == undefined){
+        creep.memory.targetId = 0;
+    }
     console.log("[attack] creepTarget is: ");
     console.log(creepTarget);
     let workResult = creep.attack(creepTarget);
     console.log("[attack] workResult is: ");
+    if(workResult == ERR_NO_BODYPART){
+        workResult = creep.rangedAttack(creepTarget);
+    }
     console.log(workResult);
 
     switch(workResult){

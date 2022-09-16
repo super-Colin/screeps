@@ -23,15 +23,16 @@ const config = {
   "ticksBetweenDeathCheck" : 5,
   "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
-  "ticksBetweenDhseathCheck" : 3,
-  "ticksBetweenDseathCheck" : 3,
+
+
+  "minimumEnergyToPickup" : 50,
 
 
   "rcLevel_1":{
     "repairWallMin": 100,
     "repairWallMax": 1000,
     "jobs":{ // the number of creeps of each type we want to maintain
-      "harvester":1,
+      "harvester":2,
       "builder":1,
       "defender":0,
       // "tester":1,
@@ -57,9 +58,9 @@ const config = {
     "repairWallMin": 10000,
     "repairWallMax": 100000,
     "jobs":{
-      "harvester":1,
-      "builder":1,
-      "defender":1,
+      "harvester":7,
+      "builder":4,
+      "defender":2,
       // "tester":4,
     },
     "bodyParts":{
