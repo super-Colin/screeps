@@ -9,11 +9,7 @@ const plannerBodyParts = require("./role.planner.bodyParts");
 // rc(Level) = Room Controller
 
 const config = {
-  "debugLevel": 5,
-  // "debugLevel":{
-  //   "task": 5,
-  //   "role": 5,
-  // },
+  "debugLevel":5,
 
   "colors":{
     "paths":{
@@ -93,7 +89,7 @@ const config = {
     "jobs":{
       "harvester":9,
       "builder":6,
-      "defender":4,
+      "defender":0,
       "planner":1,
     },
     "bodyParts":{

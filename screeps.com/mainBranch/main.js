@@ -2,7 +2,6 @@ const configs = require("./main.config");
 
 const autoSpawn = require('./autoSpawn.main');
 
-require('./creep.updateSelf');
 const roleHarvester = require('./role.harvester.main');
 const roleBuilder = require('./role.builder.main');
 const roleDefender = require('./role.defender.main');
@@ -13,6 +12,7 @@ const behaviors = {
   "builder":roleBuilder.run,
   "defender":roleDefender.run,
   "planner":rolePlanner.run,
+  "upgrader":roleHarvester.run, // from mid world branch switch
 }
 
 // hivemind is an object that will be passed between creeps and spawns

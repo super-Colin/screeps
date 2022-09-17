@@ -6,34 +6,10 @@ const spawnFromQueue = function (spawn) {
   let newName = role +"_"+ Game.time;
   // console.log(spawn.room.controller.level)
 
-  // init creep task memory
   let scheduled = spawn.spawnCreep(
     configs['rcLevel_'+spawn.room.controller.level].bodyParts[role],
     newName,
-    {"memory": {
-      "role": role,
-      "homeSpawnName":spawn.name,
-      "homeRoomName":spawn.room.name,
-      "task":"none",
-      "status":"none",
-      "L_task":"none",
-      "L_status":"none",
-      // "task":{
-      //   "task":"none",
-      //   "status":"none",
-      //   "L_task":"none",
-      //   "L_status":"none",
-      // },
-      "targetId":{
-        "task":0,
-        "ally":0,
-        "enemy":0,
-        "L_task":0,
-        "L_ally":0,
-        "L_enemy":0,
-      },
-      "random":""
-    }}
+    {"memory": {"role": role, "homeSpawnId":spawn.id, "homeRoomName":spawn.room.name}}
   );
   console.log('Working on a new ' + role + ': ' + newName + ", result :" + scheduled);
   switch(scheduled){
