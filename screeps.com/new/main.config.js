@@ -25,7 +25,7 @@ const config = {
   "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomHealCheck" :2, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
-  "ticksBetweenRoomPlanningCheck" :1000, // Are we at war? Do we need more builders or harvesters?
+  "ticksBetweenRoomPlanningCheck" :2, // Are we at war? Do we need more builders or harvesters?
 
 
   "minimumEnergyToPickup" : 50,
@@ -61,7 +61,7 @@ const config = {
     "repairWallMin": 10000,
     "repairWallMax": 100000,
     "jobs":{
-      "harvester":3,
+      "harvester":6,
       "builder":2,
       "defender":0,
       "planner":2,

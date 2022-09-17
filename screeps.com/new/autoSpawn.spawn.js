@@ -3,7 +3,7 @@ const configs = require("./main.config");
 
 const spawnFromQueue = function (spawn) {
   let role = spawn.memory.spawnQueue[0];
-  let newName = role + Game.time;
+  let newName = role +"_"+ Game.time;
   // console.log(spawn.room.controller.level)
 
   let scheduled = spawn.spawnCreep(

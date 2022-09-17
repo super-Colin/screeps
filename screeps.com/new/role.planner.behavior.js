@@ -1,6 +1,7 @@
 const configs = require("./main.config");
 
 const planSourceRoads = require('./task.planSourceRoads');
+const planEnergyStorage = require('./task.planEnergyStorage');
 const planCity = require('./task.planCity');
 
 const harvestEnergy = require('./task.harvestEnergy');
@@ -23,25 +24,28 @@ let plannerBehavior = {
             }
             if( Memory.cityPlanning[creep.room.name] == undefined ){
                 let newRoomPlans =  {
-                    city: {"level":0},
-                    roads: {"level":0},
-                    bunkers: {"level":0},
-                    ramparts: {"level":0},
+                    "city": {"level":0},
+                    "energyStorage": {"level":0},
+                    "roads": {"level":0},
+                    "bunkers": {"level":0},
+                    "ramparts": {"level":0},
                 };
                 Memory.cityPlanning[creep.room.name] = newRoomPlans;
             }
         }
         hivemind[creep.memory.role][creep.id] = {};
-
+        if(Game.time % configs.ticksBetweenRoomPlanningCheck == 0){
+            creep.memory.task = "plan";
+        }
         switch(creep.memory.task){
             case "upgradeRoom":
                 if( upgradeRoom(creep) ){
-                    break; //cascade through if one task can't be completed
+                    break;
                 }else{// if we can't harvest energy, try to...
                     if(creep.memory.status == "empty"){
-                        creep.memory.task = "withdrawEnergy";
+                        creep.memory.task = "plan";
                     }else if(creep.memory.status == "blocked"){
-                        creep.memory.task = "storeEnergy";
+                        creep.memory.task = "plan";
                     }
                 }
 
@@ -51,27 +55,48 @@ let plannerBehavior = {
                 if( Memory.cityPlanning[creep.room.name].roads.level == 0 ){
                     if( planSourceRoads.toSpawn(creep, hivemind) ){
                         Memory.cityPlanning[creep.room.name].roads.level ++; // ++
-                        break; //cascade through if one task can't be completed
+                        break;
                     }
                 }
                 if( Memory.cityPlanning[creep.room.name].roads.level == 1 && creep.room.controller.level > 1){
                     if( planSourceRoads.toController(creep, hivemind) ){
                         Memory.cityPlanning[creep.room.name].roads.level ++; // ++
-                        break; //cascade through if one task can't be completed
+                        break;
                     }
                 }
 
-            case "planCity":
-                if( Memory.cityPlanning[creep.room.name].roads.level == 0 ){
-                    if( planCity(creep, hivemind) ){
-                        Memory.cityPlanning[creep.room.name].roads.level ++ ;
-                        break; //cascade through if one task can't be completed
+            case "planEnergyStorage":
+                if( Memory.cityPlanning[creep.room.name].energyStorage.level == 0 ){
+                    console.log("Planning energy storage level 1")
+                    if( planEnergyStorage.aroundSpawn(creep, hivemind, 1 ) ){
+                        if(creep.memory.status == "done"){
+                            console.log("Planning energy storage level 1 DONE");
+                            planEnergyStorage.aroundSpawn(creep, hivemind, 2 );
+                        }
+                        Memory.cityPlanning[creep.room.name].energyStorage.level ++ ;
+                        break;
+                    }
+                    if( planEnergyStorage.aroundSpawn(creep, hivemind, 2 ) ){
+                        if(creep.memory.status == "done"){
+                            Memory.cityPlanning[creep.room.name].energyStorage.level ++ ;
+                        }
+                        break;
+                    }
+                }
+                if( Memory.cityPlanning[creep.room.name].energyStorage.level == 1 ){
+                    console.log("Planning energy storage level 2")
+                    if( planEnergyStorage.aroundSpawn(creep, hivemind, 2 ) ){
+                        if(creep.memory.status == "done"){
+                            console.log("Planning energy storage level 2 DONE")
+                            Memory.cityPlanning[creep.room.name].energyStorage.level ++ ;
+                        }
+                        break;
                     }
                 }
 
             case "buildStuff":
                 if( buildStuff(creep, (s)=>{return (s.structureType == STRUCTURE_EXTENSION)}) ){
-                    break; //cascade through if one task can't be completed
+                    break;
                 }else if( buildStuff(creep, (s)=>{return (s.structureType == STRUCTURE_ROAD)}) ){
                     break;
                 }else if( buildStuff(creep) ){
@@ -88,7 +113,7 @@ let plannerBehavior = {
 
             case "harvestEnergy":
                 if( harvestEnergy(creep) ){
-                    break; //cascade through if one task can't be completed
+                    break;
                 }else{// if we can't harvest energy, try to...
                     if(creep.memory.status == "full"){
                         creep.memory.task = "buildStuff";
@@ -102,9 +127,7 @@ let plannerBehavior = {
             default:
                 creep.memory.task = "plan";
         }
-        if(Game.time % configs.ticksBetweenRoomPlanningCheck == 0){
-            creep.memory.task = "plan";
-        }
+
     },
 
 

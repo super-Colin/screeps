@@ -5,10 +5,10 @@ const autoSpawnInit = function (spawn, jobs) {
   // push an extra harvester to the top for a brand new base
   spawn.memory.spawnQueue.push( "harvester" );
   spawn.memory.spawning = "harvester";
-  // push one of each role for this level into the queue
-  for(let role in jobs){
-    spawn.memory.spawnQueue.push(role);
-  }
+  // // push one of each role for this level into the queue
+  // for(let role in jobs){
+  //   spawn.memory.spawnQueue.push(role);
+  // }
 }
 
 

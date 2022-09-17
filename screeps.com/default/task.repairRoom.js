@@ -59,7 +59,7 @@ function repairRoom(creep, repairWalls = true, hitLimit = 100000){
         return false
     }
     if (targets == {}) {
-         return false;
+        return false;
     }
 
 }
