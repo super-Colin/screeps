@@ -18,12 +18,12 @@ const spawnFromQueue = function (spawn) {
       "status":"none",
       "L_task":"none",
       "L_status":"none",
-      // "task":{
-      //   "task":"none",
-      //   "status":"none",
-      //   "L_task":"none",
-      //   "L_status":"none",
-      // },
+      "task":{
+        "task":"none",
+        "status":"none",
+        "L_task":"none",
+        "L_status":"none",
+      },
       "targetId":{
         "task":0,
         "ally":0,

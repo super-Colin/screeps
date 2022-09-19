@@ -6,14 +6,14 @@ Creep.prototype.buildStuff = function ( opts = { constructionSitesFilter: '', us
     const taskName = "buildStuff";
     const successStatusName = "building"; // for when already doing this task sucessfully to a target
 
-    if( this.memory.lastStatus != successStatusName ){
+    // Check if the creep is already successfully doing this task
+    if( this.memory.task.L_status != successStatusName ){
+        this.updateTask(taskName);
+
         // check last task, if just tried to this task and got none or done, return false
-        // if(this.memory.lastTask == taskName && this.memory.lastStatus == "done" || this.memory.lastStatus == "none"){
-        if(this.memory.task.name == taskName && this.memory.lastStatus == "done" || this.memory.lastStatus == "none"){
+        if(this.memory.task.task == taskName && this.memory.lastStatus == "done" || this.memory.lastStatus == "none"){
             return false;
         }
-        this.updateTask(taskName);
-        this.say('🔨 Building Stuff');
 
         //Pick a target to build
         let buildSites = this.room.find(FIND_CONSTRUCTION_SITES);
@@ -36,20 +36,21 @@ Creep.prototype.buildStuff = function ( opts = { constructionSitesFilter: '', us
         if(closestByPath == null || closestByPath == false){
             debgLvl > 6 ? console.log(this.name +" couldn't find any construction sites to work on") :'';
             this.updateTaskStatus("none");
-            this.updateTargetId( taskName, 0);
+            this.updateTargetId( "task", 0);
             return false;
         }
 
+        this.say('🔨 Building Stuff');
         if(useClosest || buildSites.length == 1){
-            this.updateTargetId( taskName,closestByPath.id);
+            this.updateTargetId( "task",closestByPath.id);
         }else{
             let otherSites = buildSites.filter((b)=>{return (b.id != closestByPath.id)})
             if (otherSites.length > 0) {
                 // pick a random source to use as target... I know it's bad..
-                this.updateTargetId( taskName, otherSites[Math.floor(Math.random() * otherSites.length)].id);
+                this.updateTargetId( "task", otherSites[Math.floor(Math.random() * otherSites.length)].id);
             }else{
-                // still use closest as fallback
-                this.updateTargetId( taskName, closestByPath.id);
+                // still use closest as fallback in case
+                this.updateTargetId( "task", closestByPath.id);
             }
         }
     }

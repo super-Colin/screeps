@@ -1,10 +1,5 @@
 
 
-const harvesterBodyParts = require("./role.harvester.bodyParts");
-const builderBodyParts = require("./role.builder.bodyParts");
-const defenderBodyParts = require("./role.defender.bodyParts");
-const plannerBodyParts = require("./role.planner.bodyParts");
-
 // just some definitions so they make sense when you see them:
 // rc(Level) = Room Controller
 
@@ -25,7 +20,7 @@ const config = {
     }
   },
 
-  "ticksBetweenDeathCheck" : 5,
+  "ticksBetweenDeathCheck" : 1500,
   "ticksBetweenRoomDefenseCheck" :20, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomHealCheck" :2, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?

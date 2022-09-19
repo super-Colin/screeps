@@ -1,6 +1,7 @@
 const configs = require("./main.config");
 
 const autoSpawn = require('./autoSpawn.main');
+// import test from './test/test'
 
 require('./creep.updateSelf');
 const roleHarvester = require('./role.harvester.main');
@@ -35,6 +36,7 @@ module.exports.loop = function () {
 
   // Give creeps things to do
   for(let creep in Game.creeps){
+    // test(creep);
 
     let role = Game.creeps[creep].memory.role;
     // create a new object in hivemind for each role
