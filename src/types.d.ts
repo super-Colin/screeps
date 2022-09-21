@@ -10,6 +10,12 @@ interface Creep {
 
 }
 
+interface Room {
+  think: () => void,
+  updateEnergyIncome: () => void,
+}
+
+
 
 
 // memory extension samples
@@ -51,10 +57,18 @@ interface SpawnMemory {
 //   upgradeDepot?: boolean;
 // }
 
-// interface RoomMemory {
-//   tasks?: string;
-//   requests?: string;
-// }
+interface RoomMemory {
+  tasks?: string;
+  requests?: string;
+  logistics?: {
+    energyIncome: number;
+    energyOutflow: number;
+    defenseLevel: number;
+    calculations: {
+      energyIncome: ongoingCount
+    }
+  }
+}
 
 // interface RoomTerrain {
 //   getRawBuffer(): Uint8Array
@@ -160,6 +174,31 @@ interface CreepBlueprint {
   modifiers: string[];
   bodyParts: BodyPartConstant[];
 }
+
+
+// runningAverage will be updated every tickFrequency, with a per tick value
+interface ongoingCount {
+  tickUpdateFrequency: number; // how many ticks between runningAverage updates
+  referenceValue: number; // the value being tracked
+  runningAverage: number; // updated every tickFrequency
+  runningTotal: number; // increases each time the update is called, reset every tickFrequency
+  lastUpdateTick: number, // the tick runningAverage was last updated
+  nextUpdateTick: number, // the tick runningAverage will be updated next
+  functionName?: string;
+  timeoutOnTick?: number;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

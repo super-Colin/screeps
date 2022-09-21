@@ -34,16 +34,21 @@ export const configs = {
     }
   },
 
-  // 
-  "ticksBetweenDeathCheck" : 1000,
-  "ticksBetweenRoomDefenseCheck" :1001, // Do we have enemies in the room that should be attacked?
-  "ticksBetweenRoomHealCheck" :2, // Do we have enemies in the room that should be attacked?
-  "ticksBetweenRoomStatusCheck" :100, // Are we at war? Do we need more builders or harvesters?
-  "ticksBetweenRoomPlanningCheck" :2, // Are we at war? Do we need more builders or harvesters?
+  "ticksBetweenSpawnRoomCheck": 250,
+  "ticksBetweenDeathCheck": 200,
+  "ticksBetweenRoomDefenseCheck": 400, // Do we have enemies in the room that should be attacked?
+  "ticksBetweenRoomHealCheck": 2, // Do we have enemies in the room that should be attacked?
 
+  "ticksBetweenRoomIncomeCheck": 10,
+  "ticksBetweenRoomIncomeFullUpdate": 250,
+  "ticksBetweenRoomStatusCheck": 100, // Are we at war? Do we need more builders or harvesters?
+  "ticksBetweenRoomPlanningCheck": 2, // Are we at war? Do we need more builders or harvesters?
 
-  "minimumEnergyToPickup" : 50,
+  
 
+  "minimumEnergyToPickup": 50,
+  "minimumDesiredEnergyIncome": 6, // per tick
+  "minimumDesiredEnergyIncome_perControllerLvl": 3, // per tick
 
   "rcLevel_1":{
     "repairWallMin": 100,
