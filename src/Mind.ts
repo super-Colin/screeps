@@ -4,21 +4,13 @@ import { autoSpawn } from './Act/autoSpawn'
 
 import { dBug } from 'utils/debugLevels/debugLevels';
 
+// import {think} from 'Think/Room'
 
 
 
 export class Mind {
 
 
-
-  newTask(name:string, priority:number=3):Task{
-    let task = {
-    name: name,
-    priority: priority,
-    finished: false,
-  }
-  return task;
-  }
 
   
   think(){
@@ -30,7 +22,7 @@ export class Mind {
     // create a dictionary of rooms and their spawns
     let roomsAndSpawns: RoomsAndSpawnsDictionary = {};
     for (let spawn in Game.spawns) {
-      let roomName = Game.spawns[spawn].memory.roomName
+      let roomName = Game.spawns[spawn].room.name
       if (Object.keys(roomsAndSpawns).includes(roomName)){
         roomsAndSpawns[roomName].push(spawn)
       }else{
@@ -38,11 +30,46 @@ export class Mind {
       }
     }
 
+    let roomsAndCreeps: RoomsAndCreepsDictionary = {};
+    for (let creep in Game.creeps) {
+      let roomName = Game.creeps[creep].memory.homeRoomName
+      if (Object.keys(roomsAndCreeps).includes(roomName)) {
+        roomsAndCreeps[roomName].push(creep)
+      } else {
+        roomsAndCreeps[roomName] = [creep]
+      }
+    }
+
+
+    dBug("THINK", 6, "Game.spawns:::" +JSON.stringify(Game.spawns))
+    dBug("THINK", 6, "roomsAndSpawns:::" +JSON.stringify(roomsAndSpawns))
+    dBug("THINK", 6, "roomsAndCreeps:::" +JSON.stringify(roomsAndCreeps))
+
+
+
+    for (let room in Game.rooms) {
+      try {
+        Game.rooms[room].think(roomsAndSpawns, roomsAndCreeps);
+      } catch (e) {
+        dBug("THINK", 2, "Errorrrr thinking for room: " + room)
+        console.log(e)
+      }
+    }
+
+
+
+
     // let each room think for itself
     // which will then let it's spawns and creeps think for themselves
     for(let room in roomsAndSpawns){
       // roomsAndSpawns[room].length
-      Game.rooms[room].think(roomsAndSpawns);
+      dBug("THINK", 6, "room:::" + JSON.stringify(room))
+      try{
+        Game.rooms[room].think(roomsAndSpawns, roomsAndCreeps);
+      }catch(e){
+        dBug("THINK", 2, "Error thinking for room: "+ room)
+        console.log(e)
+      }
     }
 
     // dBug("THINK", 6, "Came up with new actionPlan"+JSON.stringify(newActionPlan))
@@ -100,6 +127,15 @@ export class Mind {
   //   agenda.spawnQueue;
   // }
 
+
+  newTask(name: string, priority: number = 3): Task {
+    let task = {
+      name: name,
+      priority: priority,
+      finished: false,
+    }
+    return task;
+  }
 
 
 

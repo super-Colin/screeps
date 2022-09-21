@@ -5,7 +5,7 @@ import { planCreep } from "./Generate/Creep/Body";
 
 
 
-Room.prototype.think = function (spawnsDictionary: RoomsAndSpawnsDictionary): void {
+Room.prototype.think = function (spawnsDictionary: RoomsAndSpawnsDictionary, creepsDictionary: RoomsAndCreepsDictionary): void {
   if (this.controller == undefined) {
     return;
   }
@@ -21,9 +21,12 @@ Room.prototype.think = function (spawnsDictionary: RoomsAndSpawnsDictionary): vo
       }
     }
   }else{
+    // keep logistics running for the room
     this.updateEnergyIncome();
   }
 
+
+  // Think for spawns and add to spawn queue if needed
   if (Game.time % configs.ticksBetweenRoomSpawnCheck == 0){
     // with energy income decide if more workers are needed
     if(this.memory.logistics.energyIncome < configs.minimumDesiredEnergyIncome
@@ -72,9 +75,16 @@ Room.prototype.think = function (spawnsDictionary: RoomsAndSpawnsDictionary): vo
 
     }// if we didn't actually need to add to the spawn queue
 
-  }// else don't try to make a new spawn queue...
+  }// else don't try to add to the spawn queue...
 
 
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // let the creeps figure out their duties
+  // for (let i = 0; i < creepsDictionary[this.name].length; i++) {
+  for (let creep in creepsDictionary[this.name]) {
+    Game.creeps[creep].think()
+  }
 
 
 

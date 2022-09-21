@@ -2,6 +2,8 @@
 // method extensions
 interface Creep {
   // sayHello: () => void;
+  think: () => void;
+  act: () => void;
   mine: () => void;
   startTask: (workUpdate: Task) => void; // start a task
   continueTask: () => void; // continue whatever the current task is
@@ -11,7 +13,7 @@ interface Creep {
 }
 
 interface Room {
-  think: (spawnsDictionary: RoomsAndSpawnsDictionary) => void,
+  think: (spawnsDictionary: RoomsAndSpawnsDictionary, creepsDictionary: RoomsAndCreepsDictionary) => void,
   updateEnergyIncome: () => void,
 }
 
@@ -164,11 +166,11 @@ interface RoomAgenda {
 
 
 interface RoomsAndSpawnsDictionary{
+  [room:string]:string[] // {room1:["spawn1", "spawn2"], room2:["spawn3"]}
+}
+interface RoomsAndCreepsDictionary{
   [room:string]:string[]
 }
-// interface RoomsAndCreepsDictionary{
-//   [room:string]:string[]
-// }
 
 
 
