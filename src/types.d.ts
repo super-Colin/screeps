@@ -1,7 +1,7 @@
 
 // method extensions
 interface Creep {
-  sayHello: () => void;
+  // sayHello: () => void;
   mine: () => void;
   startTask: (workUpdate: Task) => void; // start a task
   continueTask: () => void; // continue whatever the current task is
@@ -11,7 +11,7 @@ interface Creep {
 }
 
 interface Room {
-  think: () => void,
+  think: (spawnsDictionary: RoomsAndSpawnsDictionary) => void,
   updateEnergyIncome: () => void,
 }
 
@@ -21,15 +21,21 @@ interface Room {
 // memory extension samples
 interface CreepMemory {
   role:string;
+  homeRoomSpawn:string;
   homeRoomName:string;
   thinking:boolean;
   thoughts:{};
   task: {
-    task: string;
+    name: string;
     status: string;
     blocked: boolean;
-    L_task: string;
-    L_status: string;
+    next?: string
+    backup?: string
+    targetId: {
+      main: string,
+      next?: string,
+      backup?: string
+    }
   },
   targetId: {
     task: string;
@@ -42,6 +48,7 @@ interface CreepMemory {
 }
 
 interface SpawnMemory {
+  roomName:string,
   isMainInRoom:boolean;
   isHub:boolean;
   desiredWorkers?:number;
@@ -58,8 +65,10 @@ interface SpawnMemory {
 // }
 
 interface RoomMemory {
-  tasks?: string;
-  requests?: string;
+  spawns?:string[]
+  creeps?:string[]
+  // tasks?: string;
+  // requests?: string;
   logistics?: {
     energyIncome: number;
     energyOutflow: number;
@@ -113,21 +122,12 @@ interface Memory {
 }
 
 
-// // `global` extension samples
-// declare namespace NodeJS {
-//   interface Global {
-//     log: any;
-//   }
-// }
 
-
-type WORKER_ROLE = "miner" 
 
 
 interface Task {
-  tId:string;
   name:string;
-  priority:number;
+  priority: number; // higher is more important to get done
   finished: boolean;
   rooms?:[roomName: string];
   creeps?:[creepName: string];
@@ -136,9 +136,8 @@ interface Task {
 }
 
 interface TaskMatrix {
-  tmId:string;
   name?:string;
-  priority: string;
+  priority: string; // higher is more important to get done
   tasks:Task[];
 }
 
@@ -155,14 +154,25 @@ interface ActionPlan {
 }
 
 interface RoomAgenda {
-  raId: string;
   roomName: string;
   tasks: TaskMatrix;
-  spawnQueue:[creep: CreepBlueprint];
+  spawnQueue: CreepBlueprint[];
   completed?: TaskMatrix;
   feelingsCompiledWith?:string;
   danger?: boolean;
 }
+
+
+interface RoomsAndSpawnsDictionary{
+  [room:string]:string[]
+}
+// interface RoomsAndCreepsDictionary{
+//   [room:string]:string[]
+// }
+
+
+
+
 
 
 
@@ -235,6 +245,66 @@ type TASK_ = ""
 
 
 
+
+// Room needs
+type NEED_DEFENSE = "defense"
+type NEED_ATTACK = "attack"
+type NEED_ENERGY = "energy"
+type NEED_MINES = "mines"
+
+type ROOM_NEEDS =
+    NEED_DEFENSE
+  | NEED_ATTACK
+  | NEED_ENERGY
+  | NEED_MINES
+
+
+
+
+// Roles with jobs and behaviors assigned
+// Workers
+type ROLE_WORKER_GENERAL = "general" // what a new room will spawn, mines and transports energy back to spawn, if full upgrades controller
+type ROLE_WORKER_MINER = "miner" // a slow creep that prefers to sit still on a source and mine 
+type ROLE_WORKER_BUILDER = "builder" // prefers to build on construction sites
+type ROLE_WORKER_MOVER = "mover" // a fast creep that prefers to transport things
+// Combat
+type ROLE_DEFENSE_ARCHER = "dArcher"
+type ROLE_DEFENSE_MELEE = "dMelee"
+type ROLE_ATTACK_ARCHER = "aArcher"
+type ROLE_ATTACK_MELEE = "aMelee"
+
+
+type CREEP_ROLE =
+    ROLE_WORKER_GENERAL
+  | ROLE_WORKER_MINER
+  | ROLE_WORKER_BUILDER
+  | ROLE_WORKER_MOVER
+  // Combat
+  | ROLE_DEFENSE_ARCHER
+  | ROLE_DEFENSE_MELEE
+  | ROLE_ATTACK_ARCHER
+  | ROLE_ATTACK_MELEE
+
+
+
+// Modifiers for when generating new creep bodies
+type BODY_MOD_STATIONARY = "stationary" // single move part
+type BODY_MOD_SLOW = "slow" // fewer move parts
+type BODY_MOD_FAST = "fast" // extra move parts
+type BODY_MOD_WEAK = "weak" // fewer carry parts
+type BODY_MOD_STRONG = "strong" // extra carry parts
+type BODY_MOD_UNSKILLED = "unskilled" // fewer work parts
+type BODY_MOD_SKILLED = "skilled" // extra work parts
+
+
+type BODY_MODIFIER = 
+    BODY_MOD_STATIONARY
+  | BODY_MOD_SLOW
+  | BODY_MOD_FAST
+  | BODY_MOD_WEAK
+  | BODY_MOD_STRONG
+  | BODY_MOD_SKILLED
+  | BODY_MOD_UNSKILLED
 
 
 

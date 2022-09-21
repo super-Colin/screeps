@@ -1,8 +1,5 @@
 
 import { configs } from 'main.config';
-import { planCreep } from 'Think/Plan/Creep/parts';
-
-
 import { dBug } from '../utils/debugLevels/debugLevels';
 
 
@@ -40,22 +37,25 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
     {
       "memory": {
         "role": queuedCreep.role,
+        "homeRoomSpawn": spawn.name,
         "homeRoomName": spawn.room.name,
         "thinking":false,
         "thoughts":{},
         "task": {
-          "task": "none",
+          "name": "none",
           "status": "none",
-          "L_task": "none",
-          "L_status": "none",
+          "blocked": false,
+          "targetId": {
+            "main": "none",
+          },
         },
         "targetId": {
-          "task": "",
-          "ally": "",
-          "enemy": "",
-          "L_task": "",
-          "L_ally": "",
-          "L_enemy": "",
+          "task": "none",
+          "ally": "none",
+          "enemy": "none",
+          "L_task": "none",
+          "L_ally": "none",
+          "L_enemy": "none",
         }
       }
     }
@@ -85,8 +85,11 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
 
 
 
-export const autoSpawn = (spawn: StructureSpawn)=>{
+export const autoSpawn = function(spawn: StructureSpawn):boolean{
   // Initialize Memory for a new spawn
+  // spawn.memory.roomName ??= spawn.room.name;
+  spawn.room.memory.spawns ??=[spawn.name]
+  spawn.room.memory.spawns.includes(spawn.name) ? '' : spawn.room.memory.spawns.push(spawn.name)
   spawn.memory.isMainInRoom ??= true;
   spawn.memory.isHub ??= false;
   spawn.memory.feelings??={
@@ -103,8 +106,14 @@ export const autoSpawn = (spawn: StructureSpawn)=>{
   if (Game.time % configs.ticksBetweenDeathCheck === 0) {
     for (let name in Memory.creeps) {
       if (!Game.creeps[name]) {
+        // Remove from memory in room as well
+        let homeRoomMemory = Memory.rooms[Memory.creeps[name].homeRoomName]
+        if ( homeRoomMemory.creeps?.includes(name) ){
+          homeRoomMemory.creeps = homeRoomMemory.creeps?.filter((c)=>{return c != name})
+          console.log('Cleared non-existing creep from room ' + Memory.creeps[name].homeRoomName +'memory: ', name);
+        }
         delete Memory.creeps[name];
-        console.log('Cleared non-existing creep from memory: ', name);
+        console.log('Cleared non-existing creep from global memory: ', name);
       }
     }
   }
@@ -115,10 +124,10 @@ export const autoSpawn = (spawn: StructureSpawn)=>{
 
   } else {
     // otherwise check if we should add to the queue
-    if(Object.keys(Game.creeps).length < 7){
-      spawn.memory.spawnQueue.push(planCreep("miner"))
-    }
-    return true;
+    // if(Object.keys(Game.creeps).length < 7){
+    //   spawn.memory.spawnQueue.push(planCreep("miner"))
+    // }
+    return false;
   }
 }
 

@@ -6,144 +6,47 @@ import { dBug } from 'utils/debugLevels/debugLevels';
 
 
 
-Creep.prototype.sayHello = function () {
-  // In prototype functions, 'this' usually has the value of the object calling 
-  // the function. In this case that is whatever creep you are 
-  // calling '.sayHello()' on.
-  this.say("Hello!");
-};
-
-
-
 
 export class Mind {
 
-  constructor() {
-    // Initialize Memory
-    Memory.flags ??= {};
-    Memory.rooms ??= {};
-    Memory.creeps ??= {};
-    Memory.feelings??= {
-      useLessCpu: configs.preferences.lowCpu,
-      useMoreCpu: false,
-      cpuUseModifier: 1.0,
-      memoryUseModifier: 1.0,
-      aggresive: false, 
-      defensesive: false, 
-      stretchy: false,
-    },
-    
-
-    Memory.feelings.aggresive ??= false;
-    Memory.feelings.defensesive ??= false;
-    Memory.feelings.stretchy ??= false;
-    
-    Memory.thoughts ??={
-      logistics: {
-        roomStats: {
-        }
-      },
-    ongoing: {
-        lastTick: Game.time,
-        total: {}
-      }
-    }
-    Memory.creepsOfInterest ??= [];
-  }
 
 
-  newTask(name:string, priority:number=0):Task{
+  newTask(name:string, priority:number=3):Task{
     let task = {
-      tId: "ohentoenlo",
     name: name,
-      priority: priority,
+    priority: priority,
     finished: false,
   }
   return task;
   }
 
-  think():ActionPlan{
-    dBug("THINK", 6, "Thinking of new actionPlan")
+  
+  think(){
+    dBug("THINK", 6, "thUS started thinking")
     let newActionPlan: ActionPlan = {"spawns":[], "creeps":[]}
+
+
     
+    // create a dictionary of rooms and their spawns
+    let roomsAndSpawns: RoomsAndSpawnsDictionary = {};
     for (let spawn in Game.spawns) {
-      let newSpawnQueue: CreepBlueprint[] = []
-      if (Game.spawns[spawn].memory.spawnQueue?.length == 0 && Object.keys(Game.creeps).length < 6){
-        newSpawnQueue = [{
-          name: "miner_"+Game.time,
-          role: "miner",
-          modifiers: [],
-          bodyParts: ["carry", "carry", "move", "carry", "work"]
-        }]
-        
-      }
-      
-      
-      
-      
-      // Game.spawns[spawn];
-      //update spawn memory
-      const oldMem = Game.spawns[spawn].memory;
-      // add a new creep to the spawnQueue
-      dBug("THINK", 5, "About to loop through spawns: ")
-      dBug("THINK", 8, JSON.stringify(Game.spawns))
-      let newMem: SpawnMemory = {
-        // isMainInRoom: Game.spawns[0].name == spawn ? true : false,
-        isMainInRoom:  true,
-        isHub: false,
-        desiredWorkers: 3,
-        actualWorkers: 0,
-        spawnQueue: newSpawnQueue,
-        feelings: {
-          needWorkers: true
-        },
-        thoughts: {}
-      }
-      // For now just add them all to the plan
-      if (newActionPlan.spawns == undefined){
-        newActionPlan.spawns = [{
-          name: spawn,
-          update: newMem
-        }]
+      let roomName = Game.spawns[spawn].memory.roomName
+      if (Object.keys(roomsAndSpawns).includes(roomName)){
+        roomsAndSpawns[roomName].push(spawn)
       }else{
-        newActionPlan.spawns.push({
-          name: spawn,
-          update: newMem
-        });
-      }
-
-    }
-
-
-
-
-    for (let creep in Game.creeps) {
-      if (newActionPlan.creeps == undefined) {
-        newActionPlan.creeps = [{
-          name: creep,
-          update: this.newTask("mine")
-        }]
-      } else {
-        newActionPlan.creeps.push({
-          name: creep,
-          update: this.newTask("mine")
-        });
+        roomsAndSpawns[roomName] = [spawn]
       }
     }
 
+    // let each room think for itself
+    // which will then let it's spawns and creeps think for themselves
+    for(let room in roomsAndSpawns){
+      // roomsAndSpawns[room].length
+      Game.rooms[room].think(roomsAndSpawns);
+    }
 
-
-
-
-
-
-    // for (let room in Memory.thoughts.logistics.roomStats) {
-    //   Game.rooms[room];
-    //   // Memory.thoughts.logistics.roomStats[room].name;
-    // }
-
-    dBug("THINK", 6, "Came up with new actionPlan")
-    dBug("THINK", 6, JSON.stringify(newActionPlan))
+    // dBug("THINK", 6, "Came up with new actionPlan"+JSON.stringify(newActionPlan))
+    dBug("THINK", 6, "thUS finished thinking")
     return newActionPlan;
 
 
@@ -177,7 +80,6 @@ export class Mind {
       let workUpdate = actionPlan.creeps[i].update == undefined ? actionPlan.creeps[i].update : undefined;
       // theCreep.work(workUpdate)
       dBug("ACT", 6, JSON.stringify(theCreep))
-      theCreep.sayHello()
       theCreep.moveTo(25, 24)
     }
 
@@ -193,10 +95,56 @@ export class Mind {
 
 
   
-  ActInRoom(agenda:RoomAgenda){
-    let room = Game.rooms[agenda.roomName];
-    agenda.spawnQueue;
+  // ActInRoom(agenda:RoomAgenda){
+  //   let room = Game.rooms[agenda.roomName];
+  //   agenda.spawnQueue;
+  // }
+
+
+
+
+
+
+
+  constructor() {
+    // Initialize Memory
+    Memory.flags ??= {};
+    Memory.rooms ??= {};
+    Memory.creeps ??= {};
+    Memory.feelings ??= {
+      useLessCpu: configs.preferences.lowCpu,
+      useMoreCpu: false,
+      cpuUseModifier: 1.0,
+      memoryUseModifier: 1.0,
+      aggresive: false,
+      defensesive: false,
+      stretchy: false,
+    },
+
+
+      Memory.feelings.aggresive ??= false;
+    Memory.feelings.defensesive ??= false;
+    Memory.feelings.stretchy ??= false;
+
+    Memory.thoughts ??= {
+      logistics: {
+        roomStats: {
+        }
+      },
+      ongoing: {
+        lastTick: Game.time,
+        total: {}
+      }
+    }
+    Memory.creepsOfInterest ??= [];
   }
+
+
+
+
+
+
+
 
 }
 

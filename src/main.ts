@@ -33,9 +33,11 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const thus = new Mind();
 
   // thus.preTick();
-  let newActionPlan = thus.think();
+  // let newActionPlan = thus.think();
+  thus.think();
   // thus.makeDecisions();
-  thus.runActions(newActionPlan);
+  // thus.runActions(newActionPlan);
+  thus.runActions();
   // thus.review();
 
 
