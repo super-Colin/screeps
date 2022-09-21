@@ -26,7 +26,7 @@ export class Mind {
     let newActionPlan: ActionPlan = {"spawns":[], "creeps":[]}
 
 
-    
+
     // create a dictionary of rooms and their spawns
     let roomsAndSpawns: RoomsAndSpawnsDictionary = {};
     for (let spawn in Game.spawns) {

@@ -5,7 +5,7 @@ import { planCreep } from "./Generate/Creep/Body";
 
 
 
-Room.prototype.think = function (): void {
+Room.prototype.think = function (spawnsDictionary: RoomsAndSpawnsDictionary): void {
   if (this.controller == undefined) {
     return;
   }
@@ -55,10 +55,24 @@ Room.prototype.think = function (): void {
 
         default:
           roomSpawnQueue.push(generalCreep, generalCreep)
-      }
-    }
-    
-  }// else don't try to make a new spawn queue
+      }// after creating a new spawn queue for the room
+
+      // spread the spawn queue to the spawns this room
+      while (roomSpawnQueue.length > 0){
+        // spread the queue among all the spawns in this room
+        for (let i =0; i < spawnsDictionary[this.name].length; i++){
+          if (roomSpawnQueue.length > 0 ){
+            let toPush = roomSpawnQueue.pop();
+            if (toPush !== false && toPush !== true && toPush !== undefined){
+              Game.spawns[spawnsDictionary[this.name][i]].memory.spawnQueue.push(toPush);
+            }
+          }
+        }
+      }// after spreading the queue to the spawns
+
+    }// if we didn't actually need to add to the spawn queue
+
+  }// else don't try to make a new spawn queue...
 
 
 
