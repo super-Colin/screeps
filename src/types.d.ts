@@ -29,7 +29,7 @@ interface CreepMemory {
   thinking:boolean;
   thoughts:{};
   task: {
-    name: string;
+    name: CREEP_TASK;
     status: string;
     blocked: boolean;
     next?: string
@@ -243,14 +243,6 @@ type CODE_CATEGORY =
   | CAT_MEMORY
 
 
-type TASK_MINE = "mine"
-type TASK_HARVEST = ""
-type TASK_ = ""
-// type TASK_ = ""
-// type TASK_ = ""
-
-
-
 
 
 
@@ -283,15 +275,34 @@ type ROLE_ATTACK_MELEE = "aMelee"
 
 
 type CREEP_ROLE =
-    ROLE_WORKER_GENERAL
+  CREEP_ROLE_WORKER
+  | CREEP_ROLE_COMBAT
+
+type CREEP_ROLE_WORKER =
+  ROLE_WORKER_GENERAL
   | ROLE_WORKER_MINER
   | ROLE_WORKER_BUILDER
   | ROLE_WORKER_MOVER
-  // Combat
+type CREEP_ROLE_COMBAT =
   | ROLE_DEFENSE_ARCHER
   | ROLE_DEFENSE_MELEE
   | ROLE_ATTACK_ARCHER
   | ROLE_ATTACK_MELEE
+
+
+
+type TASK_NONE = "none"
+type TASK_MINE_ENERGY = "mineEnergy" //stationary if possible
+type TASK_HARVEST_ENERGY = "harvestEnergy" // run 
+// type TASK_ = ""
+// type TASK_ = ""
+
+
+
+type CREEP_TASK =
+  TASK_NONE
+  | TASK_MINE_ENERGY
+  | TASK_HARVEST_ENERGY
 
 
 

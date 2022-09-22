@@ -87,7 +87,7 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
 
 export const autoSpawn = function(spawn: StructureSpawn):boolean{
   if(spawn == undefined){
-    dBug("SPAWN", 6, 'ERROR ::: autospawn passed undefined ')
+    dBug("SPAWN", 2, 'ERROR ::: autospawn passed undefined ')
     return false;
   }
   dBug("SPAWN", 6, 'Starting autospawn loop for : ' + spawn.name)

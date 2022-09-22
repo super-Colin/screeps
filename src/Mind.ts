@@ -34,12 +34,12 @@ export class Mind {
     for (let creep in Game.creeps) {
       let roomName = Game.creeps[creep].memory.homeRoomName
       if (Object.keys(roomsAndCreeps).includes(roomName)) {
-        newRoomsAndAllDictionary[roomName].creeps.push(creep)
         roomsAndCreeps[roomName].push(creep)
       } else {
-        newRoomsAndAllDictionary[roomName] = { "spawns": [], "creeps": [creep] }
         roomsAndCreeps[roomName] = [creep]
       }
+      // will already be created from above
+      newRoomsAndAllDictionary[roomName].creeps.push(creep)
     }
 
 
@@ -78,7 +78,7 @@ export class Mind {
 
   // runActions(actionPlan: ActionPlan = {"spawns":[],"creeps":[]}){
   runActions(roomsDictionary: RoomsAndAllDictionary ){
-    dBug("THINK", 4, "runActions: roomsDictionary ::: " + JSON.stringify(roomsDictionary))
+    dBug("ACT", 6, "runActions: roomsDictionary ::: " + JSON.stringify(roomsDictionary))
     
     // const spawns = decideSpawnsToUse(actionPlan);
     if (Object.keys(roomsDictionary).length == 0){
@@ -89,15 +89,15 @@ export class Mind {
     for (let room in roomsDictionary) {
       // let theSpawn = Game.spawns[roomsDictionary[i].spawns];
       for (let spawn in roomsDictionary[room].spawns) {
+      // for (let i = 0; i < roomsDictionary[room].spawns.length; i++) {
         let theSpawn = Game.spawns[roomsDictionary[room].spawns[spawn]]
-        dBug("THINK", 4, "runActions: spawn ::: " + JSON.stringify(spawn))
+        dBug("ACT", 4, "runActions: spawn ::: " + JSON.stringify(spawn))
         autoSpawn(theSpawn);
       }
       for (let creep in roomsDictionary[room].creeps) {
         // let theSpawn = Game.spawns[roomsDictionary[room].spawns[spawn]]
-        // autoSpawn(Game.spawns[creep]);
         // continueTask 
-        console.log(creep+" has nothing to do yet")
+        console.log(Game.creeps[roomsDictionary[room].creeps[creep]].name+" has nothing to do yet")
         // theCreep.moveTo(25, 24)
       }
 

@@ -74,3 +74,36 @@ export const loop = ErrorMapper.wrapLoop(() => {
 // // hi from tick 1
 // // hi from tick 2
 // // ...
+
+
+
+
+
+
+
+// Emojis
+// ❌  ✔️
+// 🔴 🟠 🟡 🟢 🔵 🟣 ⚫️ ⚪️
+//  ⚙️  💥  🔅  🔆  🥓  🍰  🎂  🏎  🏍  ⚓️  💡  🔒  📈  📉  💢  ❗️  ❓  🌀  🎵  💲
+
+// 🔨 = Build
+// 🔧 = Repair
+// ⚡️ = Energy
+// 💡 = Energy
+// 💰 = Store
+// ⚔️ = Combat
+// 🛡️ = Defend
+// 🏗️ = Planning
+
+// ✅ = Good
+//
+// https://wiki.screepspl.us/index.php/Visuals_emoji
+
+
+
+
+
+
+
+
+

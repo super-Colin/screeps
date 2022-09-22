@@ -15,6 +15,7 @@ export const configs = {
     "MEMORY": 9,
   },
 
+  
   // These are the starting places, knobs will be adjusted by the bot,
   // use "preferences" to dial those adjustments in
   "defaults":{
@@ -31,6 +32,18 @@ export const configs = {
       "build":"#00aaff",
       "upgrade":"#00aa00",
       "war":"#ff0000",
+    }
+  },
+
+  "emojis":{
+    "resources":{
+      "energy": "⚡️" // ? 🟡 
+    },
+    "tasks":{
+      "build":"🔨",
+      "Repair":"🔧",
+      "Store":"💰",
+      "Defend":"🛡️",
     }
   },
 
