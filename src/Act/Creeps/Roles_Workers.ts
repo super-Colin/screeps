@@ -1,3 +1,4 @@
+import { harvestEnergy } from "./Tasks/harvestEnergy";
 
 
 
@@ -7,19 +8,19 @@
 
 export const workerGeneralBehavior = function(creep:Creep){
   initWorkerCreepMemory(creep);
-
+  workerGeneralDecisionTree(creep);
 }
 
 
 
 function initWorkerCreepMemory(creep: Creep){
-  if(creep.memory.task.name == "none"){
+  if(creep.memory.task == "none"){
     creep.memory.task
   }
 }
 
-function workerGeneralDecisionTree(role: CREEP_ROLE_WORKER){
-  switch(role){
+function workerGeneralDecisionTree(creep: Creep){
+  switch(creep.memory.role){
     case "mover":
 
     case "miner":
@@ -28,7 +29,7 @@ function workerGeneralDecisionTree(role: CREEP_ROLE_WORKER){
     
     case "general":
     default:
-      // harvestEnergy()
+      harvestEnergy(creep)
   }
 
 }

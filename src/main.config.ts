@@ -40,7 +40,9 @@ export const configs = {
       "energy": "⚡️" // ? 🟡 
     },
     "tasks":{
+      "mine":"⛏",
       "build":"🔨",
+      "upgrade": "📈", //🔗 ⛓
       "Repair":"🔧",
       "Store":"💰",
       "Defend":"🛡️",

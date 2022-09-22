@@ -28,26 +28,9 @@ interface CreepMemory {
   homeRoomName:string;
   thinking:boolean;
   thoughts:{};
-  task: {
-    name: CREEP_TASK;
-    status: string;
-    blocked: boolean;
-    next?: string
-    backup?: string
-    targetId: {
-      main: string,
-      next?: string,
-      backup?: string
-    }
-  },
-  targetId: {
-    task: string;
-    ally: string;
-    enemy: string;
-    L_task: string;
-    L_ally: string;
-    L_enemy: string;
-  }
+  task: CREEP_TASK,
+  taskStatus: CREEP_TASK_STATUS,
+  taskBlocked: boolean
 }
 
 interface SpawnMemory {
@@ -291,18 +274,54 @@ type CREEP_ROLE_COMBAT =
 
 
 
-type TASK_NONE = "none"
-type TASK_MINE_ENERGY = "mineEnergy" //stationary if possible
-type TASK_HARVEST_ENERGY = "harvestEnergy" // run 
-// type TASK_ = ""
-// type TASK_ = ""
+
+
+
+type CREEP_TASK_TYPE = "none" | "mine" | "transfer" 
 
 
 
 type CREEP_TASK =
   TASK_NONE
-  | TASK_MINE_ENERGY
-  | TASK_HARVEST_ENERGY
+  | TASK_MINE
+
+type CREEP_TASK_STATUS =
+  TASK_NONE
+  | TASK_STATUS_START
+  | TASK_STATUS_EMPTY
+  | TASK_STATUS_FULL
+  | TASK_STATUS_BLOCKED
+  | TASK_STATUS_NO_TARGET
+  | TASK_STATUS_MINE
+
+type TASK_STATUS_START = "starting"
+type TASK_STATUS_EMPTY = "empty"
+type TASK_STATUS_FULL = "full"
+type TASK_STATUS_BLOCKED = "blocked"
+type TASK_STATUS_NO_TARGET = "noTarget"
+type TASK_STATUS_MINE = "mining"
+
+
+
+// before has been assigned a job
+type TASK_NONE = "none"
+
+
+type TASK_MINE = {
+  taskType: "mine"
+  resourceType: "energy" | Mineral
+  targetId: Id<Source | Mineral>
+  targetIdBackup?: Id<Source | Mineral>
+  carryToStorage: boolean
+}
+
+type TASK_TRANSFER = {
+  taskType: "transfer"
+  fromTarget: Id<StructureStorage | StructureTerminal> | "self"
+  toTarget: Id<StructureStorage | StructureTerminal >
+  resourceType: ResourceConstant
+}
+
 
 
 

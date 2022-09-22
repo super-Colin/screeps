@@ -41,22 +41,9 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
         "homeRoomName": spawn.room.name,
         "thinking":false,
         "thoughts":{},
-        "task": {
-          "name": "none",
-          "status": "none",
-          "blocked": false,
-          "targetId": {
-            "main": "none",
-          },
-        },
-        "targetId": {
-          "task": "none",
-          "ally": "none",
-          "enemy": "none",
-          "L_task": "none",
-          "L_ally": "none",
-          "L_enemy": "none",
-        }
+        "task": "none",
+        "taskStatus": "none",
+        "taskBlocked": false,
       }
     }
   );
