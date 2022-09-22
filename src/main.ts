@@ -34,10 +34,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   // thus.preTick();
   // let newActionPlan = thus.think();
-  thus.think();
+  // thus.think();
   // thus.makeDecisions();
   // thus.runActions(newActionPlan);
-  thus.runActions();
+  thus.runActions(thus.think());
   // thus.review();
 
 

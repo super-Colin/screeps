@@ -20,6 +20,7 @@ interface Room {
 
 
 
+
 // memory extension samples
 interface CreepMemory {
   role:string;
@@ -172,7 +173,12 @@ interface RoomsAndCreepsDictionary{
   [room:string]:string[]
 }
 
-
+interface RoomsAndAllDictionary {
+  [room: string]: {
+    spawns: string[],
+    creeps: string[],
+  }
+}
 
 
 

@@ -3,8 +3,8 @@ import { configs } from 'main.config';
 import { autoSpawn } from './Act/autoSpawn'
 
 import { dBug } from 'utils/debugLevels/debugLevels';
+import { thinkForRoom } from 'Think/Room';
 
-// import {think} from 'Think/Room'
 
 
 
@@ -13,19 +13,19 @@ export class Mind {
 
 
   
-  think(){
+  think(): RoomsAndAllDictionary{
     dBug("THINK", 6, "thUS started thinking")
-    let newActionPlan: ActionPlan = {"spawns":[], "creeps":[]}
-
-
+    let newRoomsAndAllDictionary: RoomsAndAllDictionary = {}
 
     // create a dictionary of rooms and their spawns
     let roomsAndSpawns: RoomsAndSpawnsDictionary = {};
     for (let spawn in Game.spawns) {
       let roomName = Game.spawns[spawn].room.name
       if (Object.keys(roomsAndSpawns).includes(roomName)){
+        newRoomsAndAllDictionary[roomName].spawns.push(spawn)
         roomsAndSpawns[roomName].push(spawn)
       }else{
+        newRoomsAndAllDictionary[roomName] = { "spawns":[spawn], "creeps":[]}
         roomsAndSpawns[roomName] = [spawn]
       }
     }
@@ -34,27 +34,18 @@ export class Mind {
     for (let creep in Game.creeps) {
       let roomName = Game.creeps[creep].memory.homeRoomName
       if (Object.keys(roomsAndCreeps).includes(roomName)) {
+        newRoomsAndAllDictionary[roomName].creeps.push(creep)
         roomsAndCreeps[roomName].push(creep)
       } else {
+        newRoomsAndAllDictionary[roomName] = { "spawns": [], "creeps": [creep] }
         roomsAndCreeps[roomName] = [creep]
       }
     }
 
 
-    dBug("THINK", 6, "Game.spawns:::" +JSON.stringify(Game.spawns))
-    dBug("THINK", 6, "roomsAndSpawns:::" +JSON.stringify(roomsAndSpawns))
-    dBug("THINK", 6, "roomsAndCreeps:::" +JSON.stringify(roomsAndCreeps))
-
-
-
-    for (let room in Game.rooms) {
-      try {
-        Game.rooms[room].think(roomsAndSpawns, roomsAndCreeps);
-      } catch (e) {
-        dBug("THINK", 2, "Errorrrr thinking for room: " + room)
-        console.log(e)
-      }
-    }
+    // dBug("THINK", 6, "Game.spawns:::" +JSON.stringify(Game.spawns))
+    // dBug("THINK", 6, "roomsAndSpawns:::" +JSON.stringify(roomsAndSpawns))
+    // dBug("THINK", 6, "roomsAndCreeps:::" +JSON.stringify(roomsAndCreeps))
 
 
 
@@ -63,9 +54,9 @@ export class Mind {
     // which will then let it's spawns and creeps think for themselves
     for(let room in roomsAndSpawns){
       // roomsAndSpawns[room].length
-      dBug("THINK", 6, "room:::" + JSON.stringify(room))
+      // dBug("THINK", 6, "room:::" + JSON.stringify(room))
       try{
-        Game.rooms[room].think(roomsAndSpawns, roomsAndCreeps);
+        thinkForRoom(Game.rooms[room], roomsAndSpawns, roomsAndCreeps)
       }catch(e){
         dBug("THINK", 2, "Error thinking for room: "+ room)
         console.log(e)
@@ -74,9 +65,7 @@ export class Mind {
 
     // dBug("THINK", 6, "Came up with new actionPlan"+JSON.stringify(newActionPlan))
     dBug("THINK", 6, "thUS finished thinking")
-    return newActionPlan;
-
-
+    return newRoomsAndAllDictionary;
   }
 
 
@@ -87,29 +76,32 @@ export class Mind {
 
 
 
-  runActions(actionPlan: ActionPlan = {"spawns":[],"creeps":[]}){
+  // runActions(actionPlan: ActionPlan = {"spawns":[],"creeps":[]}){
+  runActions(roomsDictionary: RoomsAndAllDictionary ){
+    dBug("THINK", 4, "runActions: roomsDictionary ::: " + JSON.stringify(roomsDictionary))
     
     // const spawns = decideSpawnsToUse(actionPlan);
-    if (actionPlan.spawns?.length == 0){
+    if (Object.keys(roomsDictionary).length == 0){
       return 
     }
     // for (let spawn in actionPlan.spawns) {
-    for (let i = 0; i < actionPlan.spawns?.length; i++) {
-      let theSpawn = Game.spawns[actionPlan.spawns[i].name];
-      autoSpawn(theSpawn);
-      // autoSpawn(Game.spawns[spawn.name]);
-      // let some = theSpawn.name
-    }
-    dBug("ACT", 6, "Has " + actionPlan.creeps?.length +" to loop through and act with" )
+    // for (let i = 0; i < Object.keys(roomsDictionary).length; i++) {
+    for (let room in roomsDictionary) {
+      // let theSpawn = Game.spawns[roomsDictionary[i].spawns];
+      for (let spawn in roomsDictionary[room].spawns) {
+        let theSpawn = Game.spawns[roomsDictionary[room].spawns[spawn]]
+        dBug("THINK", 4, "runActions: spawn ::: " + JSON.stringify(spawn))
+        autoSpawn(theSpawn);
+      }
+      for (let creep in roomsDictionary[room].creeps) {
+        // let theSpawn = Game.spawns[roomsDictionary[room].spawns[spawn]]
+        // autoSpawn(Game.spawns[creep]);
+        // continueTask 
+        console.log(creep+" has nothing to do yet")
+        // theCreep.moveTo(25, 24)
+      }
 
-    for (let i = 0; i < actionPlan.creeps?.length; i++) {
-      let theCreep = Game.creeps[actionPlan.creeps[i].name];
-      let workUpdate = actionPlan.creeps[i].update == undefined ? actionPlan.creeps[i].update : undefined;
-      // theCreep.work(workUpdate)
-      dBug("ACT", 6, JSON.stringify(theCreep))
-      theCreep.moveTo(25, 24)
     }
-
 
 
     dBug("ACT", 6, "Ran actions with plan")
@@ -138,6 +130,12 @@ export class Mind {
   }
 
 
+
+
+
+
+
+  
 
 
 

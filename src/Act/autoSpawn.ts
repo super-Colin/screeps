@@ -22,13 +22,13 @@ import { dBug } from '../utils/debugLevels/debugLevels';
 
 
 const spawnFromQueue = function(spawn: StructureSpawn): boolean {
+  dBug("SPAWN", 8, "Trying to spawn from queue")
   spawn.memory.spawnQueue ??= []
   if ( spawn.memory.spawnQueue.length == 0 || spawn.memory.spawnQueue[0] == undefined ){
     return true; // success, just nothing to do
   }
   const queuedCreep = spawn.memory.spawnQueue[0]
   let newName = queuedCreep.role + "_" + Game.time;
-  // console.log(spawn.room.controller.level)
 
   // init creep task memory
   let scheduled = spawn.spawnCreep(
@@ -86,6 +86,11 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
 
 
 export const autoSpawn = function(spawn: StructureSpawn):boolean{
+  if(spawn == undefined){
+    dBug("SPAWN", 6, 'ERROR ::: autospawn passed undefined ')
+    return false;
+  }
+  dBug("SPAWN", 6, 'Starting autospawn loop for : ' + spawn.name)
   // Initialize Memory for a new spawn
   // spawn.memory.roomName ??= spawn.room.name;
   spawn.room.memory.spawns ??=[spawn.name]
