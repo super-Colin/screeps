@@ -13,10 +13,10 @@ export const harvestEnergy = function (creep: Creep, useClosest:boolean = true):
   if (
     creep.memory.task == "none"
     || creep.memory.task.taskType != taskType
+    || creep.memory.taskStatus != successStatusName
     || creep.memory.taskBlocked == true
     || creep.memory.task.targetId == undefined
     ) {
-    // creep.memory.task.taskType = taskType;
 
 
     let closestByPath = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE)

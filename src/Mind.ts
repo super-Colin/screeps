@@ -4,6 +4,7 @@ import { autoSpawn } from './Act/autoSpawn'
 
 import { dBug } from 'utils/debugLevels/debugLevels';
 import { thinkForRoom } from 'Think/Room';
+import { workerGeneralDecisionTree } from 'Act/Creeps/Roles_Workers';
 
 
 
@@ -96,8 +97,11 @@ export class Mind {
       }
       for (let creep in roomsDictionary[room].creeps) {
         // let theSpawn = Game.spawns[roomsDictionary[room].spawns[spawn]]
+        let theCreep = Game.creeps[roomsDictionary[room].creeps[creep]]
         // continueTask 
-        console.log(Game.creeps[roomsDictionary[room].creeps[creep]].name+" has nothing to do yet")
+        console.log(theCreep.name+" has nothing to do yet")
+        dBug("ACT", 7, theCreep.name + " is about to act")
+        workerGeneralDecisionTree(theCreep)
         // theCreep.moveTo(25, 24)
       }
 

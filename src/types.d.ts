@@ -284,22 +284,29 @@ type CREEP_TASK_TYPE = "none" | "mine" | "transfer"
 type CREEP_TASK =
   TASK_NONE
   | TASK_MINE
+  | TASK_TRANSFER
 
 type CREEP_TASK_STATUS =
   TASK_NONE
   | TASK_STATUS_START
+  | TASK_STATUS_DONE
   | TASK_STATUS_EMPTY
   | TASK_STATUS_FULL
   | TASK_STATUS_BLOCKED
-  | TASK_STATUS_NO_TARGET
+  | TASK_STATUS_BLOCKED_BY_TARGET
+  | TASK_STATUS_BLOCKED_NO_TARGET
   | TASK_STATUS_MINE
+  | TASK_STATUS_TRANSFER
 
 type TASK_STATUS_START = "starting"
+type TASK_STATUS_DONE = "done"
 type TASK_STATUS_EMPTY = "empty"
 type TASK_STATUS_FULL = "full"
 type TASK_STATUS_BLOCKED = "blocked"
-type TASK_STATUS_NO_TARGET = "noTarget"
+type TASK_STATUS_BLOCKED_BY_TARGET = "blockedByTarget"
+type TASK_STATUS_BLOCKED_NO_TARGET = "noTarget"
 type TASK_STATUS_MINE = "mining"
+type TASK_STATUS_TRANSFER = "transfering"
 
 
 
@@ -317,8 +324,8 @@ type TASK_MINE = {
 
 type TASK_TRANSFER = {
   taskType: "transfer"
-  fromTarget: Id<StructureStorage | StructureTerminal> | "self"
-  toTarget: Id<StructureStorage | StructureTerminal >
+  fromTargetId: Id<StructureStorage | StructureTerminal > | "self"
+  toTargetId: Id< Structure | StructureStorage | StructureTerminal | StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureController | StructureFactory | StructureLab | StructureLink | StructureExtractor>
   resourceType: ResourceConstant
 }
 
