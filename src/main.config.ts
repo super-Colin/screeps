@@ -36,6 +36,7 @@ export const configs = {
   },
 
   "emojis":{
+    "error":"💥",
     "resources":{
       "energy": "⚡️" // ? 🟡 
     },
@@ -60,8 +61,8 @@ export const configs = {
   
   // "ticksBetweenRoomIncomeCheck": 40,
   "ticksBetweenRoomIncomeAverageUpdate": 60,
-  "minimumDesiredEnergyIncome": 6, // per tick
-  "minimumDesiredEnergyIncome_perControllerLvl": 3, // per tick
+  "minimumDesiredEnergyIncome": 3, // per tick
+  "minimumDesiredEnergyIncome_perControllerLvl": 1, // per tick
 
   "ticksBetweenRoomSpawnCheck": 100,
 

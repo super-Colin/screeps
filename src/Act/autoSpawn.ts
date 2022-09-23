@@ -44,6 +44,7 @@ const spawnFromQueue = function(spawn: StructureSpawn): boolean {
         "task": "none",
         "taskStatus": "none",
         "taskBlocked": false,
+        "resourcesLastTick": {energy:0},
       }
     }
   );
@@ -115,10 +116,6 @@ export const autoSpawn = function(spawn: StructureSpawn):boolean{
     return spawnFromQueue(spawn);
 
   } else {
-    // otherwise check if we should add to the queue
-    // if(Object.keys(Game.creeps).length < 7){
-    //   spawn.memory.spawnQueue.push(planCreep("miner"))
-    // }
     return false;
   }
 }

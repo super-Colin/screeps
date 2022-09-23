@@ -66,7 +66,6 @@ export const harvestEnergy = function (creep: Creep, useClosest:boolean = true):
   // if the creep is full, stop harvesting
   if (creep.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
     creep.memory.taskStatus = "full";
-    creep.memory.taskBlocked = true;
     return false;
   }
 
@@ -74,14 +73,16 @@ export const harvestEnergy = function (creep: Creep, useClosest:boolean = true):
 
   let creepTarget = Game.getObjectById(creep.memory.task.targetId);
   if(creepTarget == null ){
+    creep.say("💥 No Target")
     return false;
   }
   let workResult = creep.harvest(creepTarget);
 
   switch (workResult) {
     case OK:
+      creep.memory.resourcesLastTick.energy = creep.store.getUsedCapacity("energy")
       creep.memory.taskStatus = successStatusName;
-      
+      creep.memory.taskBlocked = false;
       return true;
     case ERR_NOT_ENOUGH_RESOURCES:
       creep.memory.taskStatus = "blockedByTarget";
@@ -94,6 +95,8 @@ export const harvestEnergy = function (creep: Creep, useClosest:boolean = true):
         creep.memory.taskBlocked = true
         return false;
       }
+      creep.memory.taskBlocked = false;
+      return true;
     case ERR_NO_BODYPART:
       creep.memory.taskStatus = "blocked";
       creep.memory.taskBlocked = true;

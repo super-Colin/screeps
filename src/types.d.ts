@@ -28,6 +28,9 @@ interface CreepMemory {
   homeRoomName:string;
   thinking:boolean;
   thoughts:{};
+  resourcesLastTick:{
+    energy:number
+  }
   task: CREEP_TASK,
   taskStatus: CREEP_TASK_STATUS,
   taskBlocked: boolean
@@ -312,6 +315,7 @@ type CREEP_TASK =
   TASK_NONE
   | TASK_MINE
   | TASK_TRANSFER
+  | TASK_UPGRADE
 
 type CREEP_TASK_STATUS =
   TASK_NONE
@@ -361,7 +365,6 @@ type TASK_TRANSFER = {
 type TASK_UPGRADE = {
   taskType: "upgrade"
   targetId: Id<StructureController>
-  carryToStorage: boolean
 }
 
 

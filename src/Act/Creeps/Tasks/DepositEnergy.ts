@@ -74,7 +74,10 @@ export const depositEnergy = function (creep: Creep, useClosest: boolean = true)
   } // ... else
 
   let creepTarget = Game.getObjectById(creep.memory.task.toTargetId);
-  if(creepTarget == null){return false}
+  if(creepTarget == null){
+    creep.say("💥 No Target") 
+    return false
+  }
 
   let workResult = creep.transfer(creepTarget, RESOURCE_ENERGY);
 
@@ -84,6 +87,7 @@ export const depositEnergy = function (creep: Creep, useClosest: boolean = true)
       // addDepositToRoomLogistics(room, energyCarried)
       addDepositToRoomLogistics(creep.memory.homeRoomName, energyCarried)
       creep.memory.taskStatus = successStatusName;
+      creep.memory.taskBlocked = false;
       return true;
     case ERR_NOT_ENOUGH_RESOURCES:
       creep.memory.taskStatus = "done";
@@ -100,6 +104,7 @@ export const depositEnergy = function (creep: Creep, useClosest: boolean = true)
         return false;
       }
       creep.memory.taskStatus = successStatusName;
+      creep.memory.taskBlocked = false;
       return true;
   }
 

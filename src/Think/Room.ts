@@ -1,6 +1,6 @@
 import { configs } from 'main.config';
 import { dBug } from "utils/debugLevels/debugLevels";
-import { newRunningAverage, startOngoingCount, updateOngoingCount } from "utils/OngoingCount"
+import { newRunningAverage } from "utils/OngoingCount"
 import { planCreep } from "./Generate/Creep/Body";
 
 
@@ -89,14 +89,14 @@ export const thinkForRoom = function (theRoom:Room, spawnsDictionary: RoomsAndSp
 
 
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // let the creeps figure out their duties
-  // for (let i = 0; i < creepsDictionary[theRoom.name].length; i++) {
-  for (let creep in creepsDictionary[theRoom.name]) {
-    // Game.creeps[creep].think()
-    console.log(creep)
+  // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // // let the creeps figure out their duties
+  // // for (let i = 0; i < creepsDictionary[theRoom.name].length; i++) {
+  // for (let creep in creepsDictionary[theRoom.name]) {
+  //   // Game.creeps[creep].think()
+  //   console.log(creep)
 
-  }
+  // }
 
 
 
