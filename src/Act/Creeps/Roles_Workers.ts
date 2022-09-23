@@ -1,5 +1,6 @@
 import { depositEnergy } from "./Tasks/DepositEnergy";
 import { harvestEnergy } from "./Tasks/harvestEnergy";
+import { upgradeRoom } from "./Tasks/UpgradeRoom";
 
 
 
@@ -18,8 +19,15 @@ export const workerGeneralDecisionTree = function(creep:Creep){
     case "builder":
 
     case "general":
-      if (creep.memory.taskStatus == "full"){
-        depositEnergy(creep);
+      // if already upgrading keep doing that 
+      if (creep.memory.taskStatus == "upgrading"){
+        upgradeRoom(creep);
+      // if full try to deposit it
+      } else if (creep.memory.taskStatus == "full") {
+        if (!depositEnergy(creep)) {
+          // if nowhere to start depositing then start upgrading
+          upgradeRoom(creep);
+        }
       }
     default:
       harvestEnergy(creep);

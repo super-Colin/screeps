@@ -49,20 +49,23 @@ export const configs = {
     }
   },
 
-  "ticksBetweenRoomSpawnCheck": 5,
   "ticksBetweenDeathCheck": 20,
   "ticksBetweenRoomDefenseCheck": 100, // Do we have enemies in the room that should be attacked?
   "ticksBetweenRoomHealCheck": 2, // Do we have enemies in the room that should be attacked?
-
+  
   "ticksBetweenRoomStatusCheck": 100, // Are we at war? Do we need more builders or harvesters?
   "ticksBetweenRoomPlanningCheck": 2, // Are we at war? Do we need more builders or harvesters?
-  
+
   "minimumEnergyToPickup": 50,
   
-  "ticksBetweenRoomIncomeCheck": 10,
-  "ticksBetweenRoomIncomeFullUpdate": 100,
+  // "ticksBetweenRoomIncomeCheck": 40,
+  "ticksBetweenRoomIncomeAverageUpdate": 60,
   "minimumDesiredEnergyIncome": 6, // per tick
   "minimumDesiredEnergyIncome_perControllerLvl": 3, // per tick
+
+  "ticksBetweenRoomSpawnCheck": 100,
+
+
 
   "rcLevel_1":{
     "repairWallMin": 100,

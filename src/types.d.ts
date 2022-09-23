@@ -50,6 +50,8 @@ interface SpawnMemory {
 //   upgradeDepot?: boolean;
 // }
 
+
+
 interface RoomMemory {
   spawns?:string[]
   creeps?:string[]
@@ -60,10 +62,18 @@ interface RoomMemory {
     energyOutflow: number;
     defenseLevel: number;
     calculations: {
-      energyIncome: ongoingCount
+      energyIncome: runningAverage
+      // energyIncome: {}
+
     }
   }
 }
+
+// 3, 5, 5, 4, 5 = 4.2
+// 1, 4, 3, 2, 3 = 2.6
+// 0, 0, 0, 0, 0 = 0
+// 
+
 
 // interface RoomTerrain {
 //   getRawBuffer(): Uint8Array
@@ -190,7 +200,24 @@ interface ongoingCount {
 }
 
 
+interface runningAverage{
+  beforeReset:number;
+  runningAverage: number; // updated every tickFrequency
+  runningTotalAmount: number; // increases each time the update is called, reset every tickFrequency
+  runningTotalTicks: number; // increases each time the update is called, reset every tickFrequency
 
+  nextResetTick: number, // the tick runningAverage will be updated next
+  tickResetFrequency: number; // how many ticks between average updates
+  timeoutOnTick?: number;
+}
+
+// (average) = (total) / (duration)
+// average of 5 = 50 energy / over 10 ticks
+// next tick
+// (5) = 50 / 11
+// (4) = 50 / 12
+// (4) = 50 / 13
+// (4) = 50 / 14
 
 
 
@@ -277,7 +304,7 @@ type CREEP_ROLE_COMBAT =
 
 
 
-type CREEP_TASK_TYPE = "none" | "mine" | "transfer" 
+type CREEP_TASK_TYPE = "none" | "mine" | "transfer" | "upgrade"
 
 
 
@@ -296,6 +323,7 @@ type CREEP_TASK_STATUS =
   | TASK_STATUS_BLOCKED_BY_TARGET
   | TASK_STATUS_BLOCKED_NO_TARGET
   | TASK_STATUS_MINE
+  | TASK_STATUS_UPGRADE
   | TASK_STATUS_TRANSFER
 
 type TASK_STATUS_START = "starting"
@@ -306,6 +334,7 @@ type TASK_STATUS_BLOCKED = "blocked"
 type TASK_STATUS_BLOCKED_BY_TARGET = "blockedByTarget"
 type TASK_STATUS_BLOCKED_NO_TARGET = "noTarget"
 type TASK_STATUS_MINE = "mining"
+type TASK_STATUS_UPGRADE = "upgrading"
 type TASK_STATUS_TRANSFER = "transfering"
 
 
@@ -329,6 +358,11 @@ type TASK_TRANSFER = {
   resourceType: ResourceConstant
 }
 
+type TASK_UPGRADE = {
+  taskType: "upgrade"
+  targetId: Id<StructureController>
+  carryToStorage: boolean
+}
 
 
 

@@ -81,6 +81,7 @@ export const harvestEnergy = function (creep: Creep, useClosest:boolean = true):
   switch (workResult) {
     case OK:
       creep.memory.taskStatus = successStatusName;
+      
       return true;
     case ERR_NOT_ENOUGH_RESOURCES:
       creep.memory.taskStatus = "blockedByTarget";

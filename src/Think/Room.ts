@@ -1,6 +1,6 @@
 import { configs } from 'main.config';
 import { dBug } from "utils/debugLevels/debugLevels";
-import { startOngoingCount, updateOngoingCount } from "utils/OngoingCount"
+import { newRunningAverage, startOngoingCount, updateOngoingCount } from "utils/OngoingCount"
 import { planCreep } from "./Generate/Creep/Body";
 
 
@@ -18,9 +18,11 @@ export const thinkForRoom = function (theRoom:Room, spawnsDictionary: RoomsAndSp
       energyOutflow: 0,
       defenseLevel: 0,
       calculations: {
-        energyIncome: startOngoingCount(configs.ticksBetweenRoomIncomeFullUpdate, theRoom.energyAvailable)
+        energyIncome: newRunningAverage(configs.ticksBetweenRoomIncomeAverageUpdate, theRoom.energyAvailable)
       }
     }
+  } else if (theRoom.memory.logistics.calculations.energyIncome == undefined){
+    theRoom.memory.logistics.calculations.energyIncome = newRunningAverage(configs.ticksBetweenRoomIncomeAverageUpdate, theRoom.energyAvailable)
   }else{
     // keep logistics running for the room
     updateEnergyIncome(theRoom);
@@ -102,13 +104,56 @@ export const thinkForRoom = function (theRoom:Room, spawnsDictionary: RoomsAndSp
 
 
 
+
+
+
+
+
+
+
+
+
 export const updateEnergyIncome = function (theRoom:Room) {
-  // check if we should do a calc update
-  if (Game.time % configs.ticksBetweenRoomIncomeCheck == 0 && theRoom.memory.logistics != undefined){
-    updateOngoingCount(theRoom.memory.logistics.calculations.energyIncome, theRoom.energyAvailable);
-    theRoom.memory.logistics.energyIncome = theRoom.memory.logistics.calculations.energyIncome.runningAverage;
-    dBug("MEMORY", 6, "Updated energy income average for room " + theRoom.name + ', new average is ' + theRoom.memory.logistics.energyIncome +", over "+ theRoom.memory.logistics.calculations.energyIncome.tickUpdateFrequency +" ticks");
-  }//else do nothing
+
+
+  if (theRoom.memory.logistics == undefined){
+    return
+  }// running at the beginning of the tick, we'll update the average before we do actions
+
+  // calc average from last tick
+  const calcs = theRoom.memory.logistics.calculations.energyIncome;
+  calcs.runningTotalTicks ++;
+  calcs.runningAverage = calcs.runningTotalAmount / calcs.runningTotalTicks 
+
+  // check if we should reset the running totals
+  if (Game.time >= calcs.nextResetTick){
+
+    // set the main average to the new average and the running average... averaged..
+    theRoom.memory.logistics.energyIncome = (theRoom.memory.logistics.energyIncome + calcs.runningAverage) / 2
+
+    calcs.beforeReset = calcs.runningAverage
+
+    calcs.runningAverage = 0;
+    calcs.runningTotalAmount = 0;
+    calcs.runningTotalTicks = 0;
+    calcs.nextResetTick = Game.time + calcs.tickResetFrequency;
+
+    dBug("MEMORY", 6, "Updated energy income average for room " + theRoom.name + ', new average is ' + theRoom.memory.logistics.energyIncome + ", over " + calcs.nextResetTick +" ticks");
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
 }
 
 

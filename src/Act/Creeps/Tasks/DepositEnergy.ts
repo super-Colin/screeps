@@ -1,6 +1,7 @@
 import { configs } from 'main.config';
 
 import { dBug } from "utils/debugLevels/debugLevels";
+import { addDepositToRoomLogistics } from 'utils/OngoingCount';
 
 
 
@@ -66,10 +67,11 @@ export const depositEnergy = function (creep: Creep, useClosest: boolean = true)
 
 
   // if the creep is empty, stop storing
-  if (creep.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
+  const energyCarried = creep.store.getUsedCapacity(RESOURCE_ENERGY);
+  if (energyCarried == 0) {
     creep.memory.taskStatus = "done";
     return false;
-  } // ... else{
+  } // ... else
 
   let creepTarget = Game.getObjectById(creep.memory.task.toTargetId);
   if(creepTarget == null){return false}
@@ -78,6 +80,9 @@ export const depositEnergy = function (creep: Creep, useClosest: boolean = true)
 
   switch (workResult) {
     case OK:
+      // energyCarried
+      // addDepositToRoomLogistics(room, energyCarried)
+      addDepositToRoomLogistics(creep.memory.homeRoomName, energyCarried)
       creep.memory.taskStatus = successStatusName;
       return true;
     case ERR_NOT_ENOUGH_RESOURCES:
